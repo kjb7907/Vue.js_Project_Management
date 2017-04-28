@@ -1,0 +1,23 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+import Hello from '@/components/Hello'
+import board from '@/components/board'
+
+Vue.use(Router)
+
+export default new Router({
+  routes: [
+    //기본메인화면
+    {
+      path: '/',
+      name: 'Hello',
+      component: Hello
+    },
+    //게시판
+    {
+      path: '/board',
+      name: 'board',
+      component: board
+    }
+  ]
+})

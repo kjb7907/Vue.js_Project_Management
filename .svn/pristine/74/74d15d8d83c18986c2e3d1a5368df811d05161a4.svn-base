@@ -1,0 +1,30 @@
+
+<template>
+  <div class="hello">
+    <h3>hello</h3>
+    <custom-componet1></custom-componet1>
+
+  </div>
+</template>
+
+<script>
+import board from './board'
+console.log(board);
+export default {
+
+  name: 'hello',
+  component:{
+    'board':board
+  },
+  data () {
+    return {
+      msg: 'index'
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+</style>
