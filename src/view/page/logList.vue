@@ -34,23 +34,42 @@
             <div v-for="log in logData">
               <div class="card grey lighten-5 moaTitle">
                 <div style="padding:5px;font-size:10pt">
-                  <div class="row">
+                  <div class="row" :id="'logId'+log.id">
 
-                    <div class="col s2">
-                      {{log.writer}} :                  
+                    <!-- 로그 view -->
+                    <div class="view">
+                      <div class="col s2">
+                        {{log.writer}} :                  
+                      </div>
+
+                      <div class="col s8">
+                        {{log.detail}}
+                      </div>  
+
+                      <div class="col s2">
+                        <div style="font-size:8pt;color:#41B883">{{log.project}}</div>  
+                        {{log.date}}</br>
+                        <a class="pointer" @click="logUpdateForm(log.id)">수정</a> 
+                        <a class="pointer" @click="logDeleteForm(log.id)">삭제</a>
+                      </div>                     
                     </div>
 
-                    <div class="col s8">
-                      {{log.detail}}
-                    </div>  
+                    <!-- 로그 edit -->
+                    <div class="edit">
+                      <div class="col s2">
+                        <input type="text" :value="log.writer">                
+                      </div>
 
-                    <div class="col s2">
-                      <div style="font-size:8pt;color:#41B883">{{log.project}}</div>  
-                      {{log.date}}</br>
-                      <a @click="logUpdateForm(log.id)">수정</a> 
-                      <a @click="logDeleteForm(log.id)">삭제</a>
-                    </div>                    
+                      <div class="col s8">
+                        <textarea class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.detail}}</textarea>
+                      </div>  
 
+                      <div class="col s2">
+                        <a class="pointer" @click="logUpdateForm(log.id)">확인</a> 
+                        <a class="pointer" @click="logUpdateFormOut(log.id)">취소</a>
+                      </div>                        
+                    </div>
+                                    
                   </div>
                 </div>           
               </div>            
@@ -65,6 +84,9 @@
               <span style="font-size:15pt;">날짜별 모아보기</span>
               <div style="padding-left:10px;padding-right:10px;">
                 <input type="date" class="datepicker">
+              </div>
+              <div style="text-align:right;">
+                <a class="waves-effect waves-light btn" style="background-color:#41B883;margin-bottom:5px;">정렬</a>
               </div>              
             </div>
 
@@ -109,17 +131,26 @@ export default {
     }
   },
   methods:{
-    logUpdateForm : function(){
-      alert('업데이트 폼 열기');
+    //로그 수정 폼 열기
+    logUpdateForm : function(logId){
+      $('#logId'+logId).find('.edit').show();
+      $('#logId'+logId).find('.view').hide();
     },
+    //로그 수정 폼 닫기
+    logUpdateFormOut : function(logId){
+      $('#logId'+logId).find('.view').show();
+      $('#logId'+logId).find('.edit').hide();
+    },
+    //로그 삭제 확인 창
     logDeleteForm : function(){
-      if(confirm('삭제 폼 열기')==true){
+      if(confirm('삭제하시겠습니까?')==true){
 
       }else{
 
-      }
-      
-    }
+      }    
+    },
+    //날짜별 모아보기 
+    //프로젝트별 모아보기
   }
 }
 $(document).on('click','.datepicker',function(){
@@ -138,11 +169,22 @@ $(document).on('click','.datepicker',function(){
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .collection .collection-item.active{
   background-color:#41B883;
 }
+
 .moaTitle {
     border-left: solid;
     border-left-color: #41B883;  
+}
+
+
+.edit {
+  display:none;
+}
+
+.pointer{
+  cursor:pointer;
 }
 </style>
