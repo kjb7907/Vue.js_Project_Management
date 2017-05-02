@@ -40,7 +40,7 @@
 
           <div @scroll="logScroll()" id="logScroll" style="height:600px;overflow:auto">
 
-            <div id="innerScroll">
+            <div id="innerScroll" style="margin:5px;">
         
               <div class="card"style="text-align:center">
                 <i class="material-icons" style="color:#41B883;position:relative;top:5px;">comment</i><span style="font-size:15pt;">로그</span>
@@ -271,13 +271,12 @@ export default {
 
             //삭제버튼 클릭 삭제확인창 열기
             logDelForm :function(id){
-              console.log(this.logData);
               confirm('삭제창 열기');
             },
 
             //로그 스크롤 끝
             logScroll(){   
-                if($('#logScroll').scrollTop() == $('#innerScroll').height() - $('#logScroll').height()+45 ){
+                if($('#logScroll').scrollTop()+10 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
                   this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2asd'});
                 }             
             }

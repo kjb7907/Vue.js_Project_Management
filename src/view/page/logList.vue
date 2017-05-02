@@ -29,52 +29,56 @@
               </router-link>
               </div>
        
-            </div>              
+            </div>             
 
-            <div v-for="log in logData">
-              <div class="card grey lighten-5 moaTitle">
-                <div style="padding:5px;font-size:10pt">
-                  <div class="row" :id="'logId'+log.id">
+            <div @scroll="logScroll()" id="logScroll" style="height:600px;overflow:auto">
+              <div id="innerScroll" style="margin:5px;">
+                <div v-for="log in logData">
+                  <div class="card grey lighten-5 moaTitle">
+                    <div style="padding:5px;font-size:10pt">
+                      <div class="row" :id="'logId'+log.id">
 
-                    <!-- 로그 view -->
-                    <div class="view">
-                      <div class="col s2">
-                        {{log.writer}} :                  
+                        <!-- 로그 view -->
+                        <div class="view">
+                          <div class="col s2">
+                            {{log.writer}} :                  
+                          </div>
+
+                          <div class="col s8">
+                            {{log.detail}}
+                          </div>  
+
+                          <div class="col s2">
+                            <div style="font-size:8pt;color:#41B883">{{log.project}}</div>  
+                            {{log.date}}</br>
+                            <a class="pointer" @click="logUpdateForm(log.id)">수정</a> 
+                            <a class="pointer" @click="logDeleteForm(log.id)">삭제</a>
+                          </div>                     
+                        </div>
+
+                        <!-- 로그 edit -->
+                        <div class="edit">
+                          <div class="col s2">
+                            <input type="text" :value="log.writer">                
+                          </div>
+
+                          <div class="col s8">
+                            <textarea class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.detail}}</textarea>
+                          </div>  
+
+                          <div class="col s2">
+                            <a class="pointer" @click="logUpdateForm(log.id)">확인</a> 
+                            <a class="pointer" @click="logUpdateFormOut(log.id)">취소</a>
+                          </div>                        
+                        </div>
+                                        
                       </div>
-
-                      <div class="col s8">
-                        {{log.detail}}
-                      </div>  
-
-                      <div class="col s2">
-                        <div style="font-size:8pt;color:#41B883">{{log.project}}</div>  
-                        {{log.date}}</br>
-                        <a class="pointer" @click="logUpdateForm(log.id)">수정</a> 
-                        <a class="pointer" @click="logDeleteForm(log.id)">삭제</a>
-                      </div>                     
-                    </div>
-
-                    <!-- 로그 edit -->
-                    <div class="edit">
-                      <div class="col s2">
-                        <input type="text" :value="log.writer">                
-                      </div>
-
-                      <div class="col s8">
-                        <textarea class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.detail}}</textarea>
-                      </div>  
-
-                      <div class="col s2">
-                        <a class="pointer" @click="logUpdateForm(log.id)">확인</a> 
-                        <a class="pointer" @click="logUpdateFormOut(log.id)">취소</a>
-                      </div>                        
-                    </div>
-                                    
-                  </div>
-                </div>           
-              </div>            
-            </div>          
-                                                                                              
+                    </div>           
+                  </div>            
+                </div>    
+              </div>
+            </div> 
+                                                                                            
           </div>
 
           <!-- 모아보기 -->
@@ -126,6 +130,12 @@ export default {
               {id:'2', writer:'작성자2',date:'2017-4-24',detail:'본문2',project:'project2'},
               {id:'3', writer:'작성자3',date:'2017-4-24',detail:'본문3',project:'project3'},
               {id:'4', writer:'작성자4',date:'2017-4-24',detail:'본문4',project:'project4'},
+              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
+              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
+              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
+              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
+              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
+              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
               {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'}        
       ]
     }
@@ -151,6 +161,12 @@ export default {
     },
     //날짜별 모아보기 
     //프로젝트별 모아보기
+    //로그스크롤 끝
+    logScroll(){   
+        if($('#logScroll').scrollTop()+20 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2asd'});
+        }             
+    }    
   }
 }
 $(document).on('click','.datepicker',function(){
