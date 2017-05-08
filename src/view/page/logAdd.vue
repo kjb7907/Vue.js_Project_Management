@@ -24,7 +24,7 @@
 
                 <div class="input-field col s6">
                   <select class="browser-default">
-                    <option value="" disabled selected>분류</option>
+                    <option value="" disabled selected>분류</option> 
                     <option value="1">프로젝트 1</option>
                     <option value="2">프로젝트 2</option>
                     <option value="3">프로젝트 3</option>
