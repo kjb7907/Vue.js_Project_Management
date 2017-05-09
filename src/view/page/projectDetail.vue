@@ -284,10 +284,74 @@ export default {
           } //methods end  
 
   // mounted == document ready 
-  ,mounted : function(){
+  ,mounted : function(){    
 
-            
-           } //mounted end
+    /* -------------------------------------------
+    * 요청주소에서 파라미터 얻기
+    */
+    var projectId;
+    (function(){
+      let url = location.href;
+      let param = url.substring(url.indexOf("?")+1,url.length);
+      let paramArr = param.split("=");
+      
+      projectId = paramArr[1];
+      console.log(projectId);
+    }());
+    
+    /* ----------------------------------------------
+    * 요청주소에서 가져온 파라미터로 프로젝트 상세정보 가져오기
+    */ 
+    var projectInfo = 
+          $.ajax({
+          url:context.testUrl+'/projectListData',
+          async:false,
+          type:'get',
+          dataType : "json",
+          success : function(data){ 
+
+          },
+          error : function(err){
+            console.log(err);
+          }
+      });   
+
+    /* --------------------------------------------
+    * 요청주소에서 가져온 파라미터로 프로젝트 로그 가져오기
+    */    
+    var projectLog = 
+          $.ajax({
+              url:context.testUrl+'/projectListData',
+              async:false,
+              type:'get',
+              dataType : "json",
+              success : function(data){ 
+
+              },
+              error : function(err){
+                console.log(err);
+              }
+          });     
+
+    /* -----------------------------------------------
+    * 요청주소에서 가져온 파라미터로 프로젝트 체크리스트 가져오기
+    */        
+    var projectCheckList = 
+          $.ajax({
+              url:context.testUrl+'/projectListData',
+              async:false,
+              type:'get',
+              dataType : "json",
+              success : function(data){ 
+
+              },
+              error : function(err){
+                console.log(err);
+              }
+          });         
+
+
+   } //mounted end
 
 
 } //export default end   

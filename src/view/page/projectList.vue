@@ -28,28 +28,29 @@
             </div>
           </div>               
 
-          <router-link to="/projectDetail" style="color:#4C4C4C">
-            <div class="col s3">
-              <div class="card"style="min-height:200px;">
+          <template v-for="project in projectListData">
 
-                <div class="flow-text">
-                  <div class="center-align" style="font-size:10pt;padding-top:40px;" >
-                    <div style="font-size:16pt;"><i class="material-icons" style="color:#41B883">description</i>Project 1</div>          
+            <router-link :to="'/projectDetail?projectId='+project.ID" style="color:#4C4C4C">
+              <div class="col s3">
+                <div class="card"style="min-height:200px;">
 
-                    <div>프로젝트 진행율: 
-                      <div class="progress container" style="height:10px;">
-                        <div class="determinate" style="width: 70%;background-color:#41B883;"></div>
-                      </div>                  
+                  <div class="flow-text">
+                    <div class="center-align" style="font-size:10pt;padding-top:40px;" >
+                      <div style="font-size:16pt;"><i class="material-icons" style="color:#41B883">description</i>{{project.NAME}}</div>          
+
+                      <div>프로젝트 진행율: {{project.PROGRESS}}%
+                        <div class="progress container" style="height:10px;">
+                          <div class="determinate" :style="'width:' +project.PROGRESS+'%;background-color:#41B883;'"></div>
+                        </div>                  
+                      </div>
                     </div>
-                  </div>
-                </div>   
+                  </div>   
 
-              </div>
-            </div>   
-          </router-link>      
+                </div>
+              </div>   
+            </router-link>                
 
-
-
+          </template>
 
         </div>
       </div>
@@ -60,17 +61,43 @@
 
 <script>
 
+var context = require('../../context.js');
+
+
 export default {
 
   name: 'projectList',
   components: {
     
-  },
-  data () {
+  }
+  ,data () {
     return {
-      msg: 'index'
+      projectListData : []
     }
   }
+  ,mounted : function(){
+
+    /*
+    * 프로젝트 리스트 초기값 가져오기
+    */
+    var initProjectList = 
+          $.ajax({
+              url:context.testUrl+'/projectListData',
+              async:false,
+              type:'get',
+              dataType : "json",
+              success : function(data){ 
+
+              },
+              error : function(err){
+                console.log(err);
+              }
+          });
+    //프로젝트 리스트에 바인딩
+    this.projectListData = initProjectList.responseJSON;
+
+  } //mounted end
+
 }
 </script>
 

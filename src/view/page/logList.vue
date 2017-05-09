@@ -164,7 +164,17 @@ export default {
     //로그스크롤 끝
     logScroll(){   
         if($('#logScroll').scrollTop()+20 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2asd'});
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문asd2asd'});
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본123d문2asd'});
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문asdasd2asd'});
+
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2aasdasdsd'});
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본asdas문2asd'});
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본asd문2asd'});
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본asd문2asd'});
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문sdasd2asd'});
+          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문asd2asd'});
+          
         }             
     }    
   }
