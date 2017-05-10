@@ -1,3 +1,3 @@
 module.exports = {
-    testUrl:'http://localhost:8007'
+    hostUrl:'http://localhost:8007'
 }

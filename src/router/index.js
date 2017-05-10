@@ -37,7 +37,7 @@ export default new Router({
 
     //프로젝트 상세
     {
-      path: '/projectDetail',
+      path: '/projectDetail/:projectId',
       name: 'projectDetail',
       component: projectDetail
     },            

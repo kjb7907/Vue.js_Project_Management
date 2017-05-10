@@ -30,7 +30,7 @@
 
           <template v-for="project in projectListData">
 
-            <router-link :to="'/projectDetail?projectId='+project.ID" style="color:#4C4C4C">
+            <router-link :to="'/projectDetail/'+project.ID" style="color:#4C4C4C">
               <div class="col s3">
                 <div class="card"style="min-height:200px;">
 
@@ -77,12 +77,12 @@ export default {
   }
   ,mounted : function(){
 
-    /*
+    /* ----------------------------------------------
     * 프로젝트 리스트 초기값 가져오기
     */
     var initProjectList = 
           $.ajax({
-              url:context.testUrl+'/projectListData',
+              url:context.hostUrl+'/projectListData',
               async:false,
               type:'get',
               dataType : "json",

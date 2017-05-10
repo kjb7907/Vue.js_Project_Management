@@ -7,7 +7,7 @@
 
         <nav class="grey lighten-5">
           <div class="nav-wrapper">
-            <a class="brand-logo center"style="color:#41B883;"><i class="material-icons large">assignment</i>Project 1</a>
+            <a class="brand-logo center"style="color:#41B883;"><i class="material-icons large">assignment</i>{{projectData.NAME}}</a>
           </div>
         </nav>  
 
@@ -19,16 +19,16 @@
             <div class="row">
               <div class="col s4">
                 <i class="large material-icons" style="color:#41B883">receipt</i>
-                <div>시작일 : 2017-04-20</div>
-                <div>마감예정일 : 2017-05-20 </div>
+                <div>시작일 : {{projectData.STARTDATE}}</div>
+                <div>마감예정일 : {{projectData.CLOSEDATE}} </div>
               </div>
           
               <div class="col s4">
                 <i class="large material-icons" style="color:#41B883">insert_chart</i>
-                <div>프로젝트 진행율 : 70%</div>
+                <div>프로젝트 진행율 : {{projectData.PROGRESS}}%</div>
                 <div class="container">
                   <div class="progress" style="height:20px">
-                      <div class="determinate" style="width: 70%;background-color:#41B883"></div>
+                      <div class="determinate" :style="'width:'+ projectData.PROGRESS+'%;background-color:#41B883'"></div>
                   </div>
                 </div>           
               </div>                
@@ -46,7 +46,7 @@
                 <i class="material-icons" style="color:#41B883;position:relative;top:5px;">comment</i><span style="font-size:15pt;">로그</span>
               </div>
 
-              <!-- 로그 추가 -->
+              <!-- 로그 등록 -->
               <div class="card">
 
                 <!-- 로그 추가 버튼 -->
@@ -56,16 +56,22 @@
                 <!-- 로그 추가버튼 클릭시 -->
                 <div v-else>
                 
-                  <form>
+                  <form id="logAddForm">
                     <div style="padding: 10px 20px 30px 20px;">
 
                       <div class="input-field">
-                        <input id="input_text" type="text" data-length="10">
+
+                        <!-- 프로젝트 ID -->
+                        <input name="projectId"type="hidden" :value="projectData.ID">                          
+
+                        <!-- 작성자 -->
+                        <input name="writer" id="input_text" type="text" data-length="10" style="width:40%">
                         <label for="icon_prefix">작성자</label>
+                  
                         <!-- 본문 -->
                         <div class="row">
                           <div class="input-field col s12">
-                            <textarea id="textarea1" class="materialize-textarea" data-length="120"></textarea>
+                            <textarea name="detail" class="materialize-textarea" data-length="120"></textarea>
                             <label for="textarea1">본문</label>
                           </div>
                         </div>                      
@@ -74,7 +80,7 @@
 
 
                       <button @click="logAddForm()"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">취소</button>                
-                      <button @click="logAddForm()"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button> 
+                      <button @click="logAddAction()"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button> 
 
                     </div>                  
                   </form>            
@@ -87,16 +93,16 @@
                 <div id="logMemo">
                     <div class="card" style="width:100%;min-height:100px;">
                                               
-                      <div class="row" :id="'memoKey'+log.id" >
+                      <div class="row" :id="'memoKey'+log.ID" >
 
                         <!-- 로그 view-->                            
                         <div class="view log">
 
                           <!-- 작성자 -->
-                          <span style="color:#424242;margin-left:10px;">{{log.writer}}</span>
+                          <span style="color:#424242;margin-left:10px;">{{log.WRITER}}</span>
 
                           <!-- 작성일 -->
-                          <span style="float:right;color:#747474;">{{log.date}} &nbsp;</span>
+                          <span style="float:right;color:#747474;">{{log.LOGDATE}} &nbsp;</span>
 
 
                           <!-- 구분선 -->
@@ -104,36 +110,38 @@
 
                           <!-- 본문 -->                                                  
                           <div class="col s12">
-                            {{log.detail}}
+                            {{log.DETAIL}}
                           </div> 
 
                           <!-- 버튼 -->
-                          <button @click="logDelForm(log.id)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">삭제</button>    
-                          <button @click="logUpdateForm(log.id)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">수정</button>                                
+                          <button @click="logDelForm(log.ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">삭제</button>    
+                          <button @click="logModifyForm(log.ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">수정</button>                                
 
                         </div>
 
-                        <!-- 로그 수정 -->
+                        <!-- 로그 수정 폼 -->
                         <div class="edit log">
+                          <form :id="'logModifyForm'+log.ID">
+                            
+                            <div class="row">
 
-                          <!-- 작성자 -->
-                          <div class="row">
-                            <div class="col s6">
-                              <div>                              
-                              <input type="text" style="font-size:10pt;"v-bind:value="log.writer"/>
-                              </div>                            
-                            </div>
-                          </div>                            
+                              <!-- log id -->
+                              <input name="logId"type="hidden" :value="log.ID">   
+                              <!-- 작성자 -->
+                              <div class="col s5">                        
+                                <input name="writer"type="text" style="font-size:10pt;"v-bind:value="log.WRITER"/>                     
+                              </div>
+                              <!-- 본문 -->
+                              <div class="input-field col s12">
+                                <textarea  name="detail"class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.DETAIL}}</textarea>
+                              </div>     
 
-                          <div>
-                            <div class="input-field col s12">
-                              <textarea  class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.detail}}</textarea>
-                            </div>                                     
-                          </div>
+                            </div>      
 
-                          <button @click="logConfirm(log.id)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">취소</button>   
-                          <button @click="logConfirm(log.id)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button>                              
+                            <button @click="logModifyCancel(log.ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">취소</button>   
+                            <button @click="logModifyAction(log.ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button>      
 
+                          </form>                      
                         </div>
 
 
@@ -169,8 +177,8 @@
               <!-- 체크리스트 등록 폼 열기-->
               <div v-else>
                   <div><input type="text"></div>
-                  <a @click="checkAddForm()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">취소</a>
-                  <a @click="checkAddForm()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">등록</a>                
+                  <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">취소</button>
+                  <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">등록</button>                
               </div>
 
 
@@ -178,12 +186,13 @@
 
 
               <!-- 체크리스트 -->
-              <div v-for="check in checkList">
+              <template v-for="check in checkListData">
                 <p>
-                  <input type="checkbox" v-bind:id="check.id" :name="check.id" v-model="check.checked"/>                
-                  <label :for="check.id">{{check.detail}}</label>                 
+                  <input type="checkbox" class="filled-in" v-bind:id="check.ID" :name="check.ID" v-model="check.SUCCESS"/>                
+                  <label :for="check.ID">{{check.DETAIL}}</label>                 
                 </p>                          
-              </div>   
+              </template>   
+
             </form>
           </div>
 
@@ -204,6 +213,8 @@
 
 <script>
 
+var context = require('../../context.js');
+
 export default {
 
   name: 'projectDetail',
@@ -211,22 +222,14 @@ export default {
     
   },
   data () {
-    return {     
-        logData : [
-              {id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2'},
-              {id:'2', writer:'작성자2',date:'2017-4-24',detail:'본문3'},
-              {id:'3', writer:'작성자3',date:'2017-4-24',detail:'본문4'},
-              {id:'4', writer:'작성자4',date:'2017-4-24',detail:'본문5'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문6'}          
-        ]
-        ,checkList : [
-            {id:'1',detail:'요구사항 분석',checked:"true"},
-            {id:'2',detail:'아키텍쳐 설계',checked:true},
-            {id:'3',detail:'db 설계',checked:false}          
-        ]
+    return {
+        projectData : { }     
+        ,logData : [ ]
+        ,checkListData : [ ]
         ,formAdd: true
         ,checkAdd: true
-
+        ,projectId: this.$route.params.projectId
+        ,logCurrentCount:'1'
     }
   }
   ,methods : {
@@ -238,48 +241,79 @@ export default {
               }else{
                 this.formAdd=true;
               }  
-            },
+            }
 
-            //체크리스트 등록 폼 열기 닫기
-            checkAddForm : function(){
-              if(this.checkAdd==true){
-                this.checkAdd=false;
-              }else{
-                this.checkAdd=true;
-              }
-            },      
+            //로그 등록
+            ,logAddAction : function(){
 
-            //수정버튼 클릭 수정폼 열기 
-            logUpdateForm :function(id){
+              $.ajax({
+                url:context.hostUrl+'/projectLogAdd',
+                async:false,
+                type:'post',
+                data:$('#logAddForm').serialize(),
+                dataType : "json",
+                success : function(data){ },
+                error : function(err){ console.log(err); }
+              });  
+
+            }
+
+            //로그 수정버튼 클릭 수정폼 열기 
+            ,logModifyForm :function(id){
               $("#memoKey"+id).find(".view").each(function(){
                 $(this).hide();
               });
               $("#memoKey"+id).find(".edit").each(function(){
                 $(this).show();
               });              
-            },
+            }
 
-            //수정 확인
-            logConfirm :function(id){
+            //로그 수정 폼 취소
+            ,logModifyCancel :function(id){
               $("#memoKey"+id).find(".view").each(function(){
                 $(this).show();
               });
               $("#memoKey"+id).find(".edit").each(function(){
                 $(this).hide();
               });   
-            },     
+            }
+
+            //로그 수정  
+            ,logModifyAction : function(id){
+              console.log('로그수정');
+              $.ajax({
+                url:context.hostUrl+'/projectLogModify',
+                async:false,
+                type:'post',
+                data:$('#logModifyForm'+id).serialize(),
+                dataType : "json",
+                success : function(data){ },
+                error : function(err){ console.log(err); }
+              });                
+            }
 
             //삭제버튼 클릭 삭제확인창 열기
-            logDelForm :function(id){
-              confirm('삭제창 열기');
-            },
+            ,logDelForm :function(id){
+              if(confirm('삭제하시겠습니까?')==true){
+                
+              }         
+            }
 
-            //로그 스크롤 끝
-            logScroll(){   
+            //로그 스크롤 끝 이벤트
+            ,logScroll(){   
                 if($('#logScroll').scrollTop()+10 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
                   this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2asd'});
                 }             
             }
+
+            //체크리스트 등록 폼 열기 닫기
+            ,checkAddForm : function(){
+              if(this.checkAdd==true){
+                this.checkAdd=false;
+              }else{
+                this.checkAdd=true;
+              }
+            }              
 
           } //methods end  
 
@@ -287,50 +321,40 @@ export default {
   ,mounted : function(){    
 
     /* -------------------------------------------
-    * 요청주소에서 파라미터 얻기
+    * 라우터에서 매개변수 얻기
     */
-    var projectId;
-    (function(){
-      let url = location.href;
-      let param = url.substring(url.indexOf("?")+1,url.length);
-      let paramArr = param.split("=");
-      
-      projectId = paramArr[1];
-      console.log(projectId);
-    }());
+    var projectId = this.projectId; //프로젝트id
+    var logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
     
     /* ----------------------------------------------
-    * 요청주소에서 가져온 파라미터로 프로젝트 상세정보 가져오기
+    * 프로젝트ID로 프로젝트 상세정보, 로그, 체크리스트 가져오기
     */ 
     var projectInfo = 
           $.ajax({
-          url:context.testUrl+'/projectListData',
-          async:false,
-          type:'get',
-          dataType : "json",
-          success : function(data){ 
+            url:context.hostUrl+'/projectDetailData',
+            async:false,
+            type:'get',
+            data:{"id":projectId,"logCurrentCount":logCurrentCount},
+            dataType : "json",
+            success : function(data){ },
+            error : function(err){ console.log(err); }
+          });   
 
-          },
-          error : function(err){
-            console.log(err);
-          }
-      });   
+      //가져온 상세정보 세팅
+      this.projectData=projectInfo.responseJSON.projectDetail;
+      this.logData=projectInfo.responseJSON.logList;
+      this.checkListData=projectInfo.responseJSON.checkList;
+
+      
+     
+
 
     /* --------------------------------------------
     * 요청주소에서 가져온 파라미터로 프로젝트 로그 가져오기
     */    
     var projectLog = 
           $.ajax({
-              url:context.testUrl+'/projectListData',
-              async:false,
-              type:'get',
-              dataType : "json",
-              success : function(data){ 
 
-              },
-              error : function(err){
-                console.log(err);
-              }
           });     
 
     /* -----------------------------------------------
@@ -338,16 +362,7 @@ export default {
     */        
     var projectCheckList = 
           $.ajax({
-              url:context.testUrl+'/projectListData',
-              async:false,
-              type:'get',
-              dataType : "json",
-              success : function(data){ 
 
-              },
-              error : function(err){
-                console.log(err);
-              }
           });         
 
 
@@ -358,19 +373,6 @@ export default {
 
 
 
-var logDataArr = [
-              {id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2'},
-              {id:'2', writer:'작성자2',date:'2017-4-24',detail:'본문3'},
-              {id:'3', writer:'작성자3',date:'2017-4-24',detail:'본문4'},
-              {id:'4', writer:'작성자4',date:'2017-4-24',detail:'본문5'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문6'}
-            ]
-
-var checkListArr = [
-            {id:'1',detail:'요구사항 분석',checked:"true"},
-            {id:'2',detail:'아키텍쳐 설계',checked:true},
-            {id:'3',detail:'db 설계',checked:false}
-          ]    
 
 </script>
 
