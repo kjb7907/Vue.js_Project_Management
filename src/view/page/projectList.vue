@@ -30,17 +30,17 @@
 
           <template v-for="project in projectListData">
 
-            <router-link :to="'/projectDetail/'+project.ID" style="color:#4C4C4C">
+            <router-link :to="'/projectDetail/'+project.PROID" style="color:#4C4C4C">
               <div class="col s3">
                 <div class="card"style="min-height:200px;">
 
                   <div class="flow-text">
                     <div class="center-align" style="font-size:10pt;padding-top:40px;" >
-                      <div style="font-size:16pt;"><i class="material-icons" style="color:#41B883">description</i>{{project.NAME}}</div>          
+                      <div style="font-size:16pt;"><i class="material-icons" style="color:#41B883">description</i>{{project.PRONAME}}</div>          
 
-                      <div>프로젝트 진행율: {{project.PROGRESS}}%
+                      <div>프로젝트 진행율: {{project.PROPROGRESS}}%
                         <div class="progress container" style="height:10px;">
-                          <div class="determinate" :style="'width:' +project.PROGRESS+'%;background-color:#41B883;'"></div>
+                          <div class="determinate" :style="'width:' +project.PROPROGRESS+'%;background-color:#41B883;'"></div>
                         </div>                  
                       </div>
                     </div>
