@@ -137,7 +137,7 @@
                               </div>     
 
                             </div>      
-
+                            
                             <button @click="logModifyCancel(log.ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">취소</button>   
                             <button @click="logModifyAction(log.ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button>      
 
@@ -171,26 +171,29 @@
               <div v-if="checkAdd" class="center-align">                
                 <!-- 체크리스트 등록 -->
                 <div>
-                  <a @click="checkAddForm()"><i class="material-icons"style="color:#41B883;">add</i></a>
+                  <a @click="checkAddForm()" style="cursor:pointer;"><i class="material-icons"style="color:#41B883;">add</i></a>
                 </div>              
               </div>             
               <!-- 체크리스트 등록 폼 열기-->
               <div v-else>
-                  <div><input type="text"></div>
+                  <div><input type="text" id="checkDetail" name="checkDetail"></div>
                   <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">취소</button>
-                  <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">등록</button>                
+                  <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">등록</button>                
               </div>
 
 
               
 
 
-              <!-- 체크리스트 -->
+              <!-- 체크리스트 목록 -->
               <template v-for="check in checkListData">
+
                 <p>
-                  <input type="checkbox" class="filled-in" v-bind:id="check.ID" :name="check.ID" v-model="check.SUCCESS"/>                
-                  <label :for="check.ID">{{check.DETAIL}}</label>                 
-                </p>                          
+                  <input @click="checkAction(check.ID)" type="checkbox" class="filled-in" :id="'ck'+check.ID" :checked="(check.SUCCESS == 'true')" />                
+                  <label :for="'ck'+check.ID">{{check.DETAIL}}</label>                 
+                </p>
+
+
               </template>   
 
             </form>
@@ -229,7 +232,8 @@ export default {
         ,formAdd: true
         ,checkAdd: true
         ,projectId: this.$route.params.projectId
-        ,logCurrentCount:'1'
+        ,logCurrentCount:1
+        ,limit:10
     }
   }
   ,methods : {
@@ -280,7 +284,6 @@ export default {
 
             //로그 수정  
             ,logModifyAction : function(id){
-              console.log('로그수정');
               $.ajax({
                 url:context.hostUrl+'/projectLogModify',
                 async:false,
@@ -292,18 +295,44 @@ export default {
               });                
             }
 
-            //삭제버튼 클릭 삭제확인창 열기
+            //로그 삭제버튼 클릭 삭제확인창 열기
             ,logDelForm :function(id){
               if(confirm('삭제하시겠습니까?')==true){
-                
+                $.ajax({
+                  url:context.hostUrl+'/projectLogDelete',
+                  async:false,
+                  type:'post',
+                  data:{logId:id},
+                  dataType : "json",
+                  success : function(data){ },
+                  error : function(err){ console.log(err); }
+                });      
+                location.reload();                
               }         
             }
 
             //로그 스크롤 끝 이벤트
-            ,logScroll(){   
+            ,logScroll : function(){
+
+                var projectId = this.projectId; //프로젝트id
+                var logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
+                var limit = this.limit
+
                 if($('#logScroll').scrollTop()+10 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
-                  this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2asd'});
-                }             
+                  let logList = 
+                  $.ajax({
+                    url:context.hostUrl+'/projectLogRead',
+                    async:false,
+                    type:'get',
+                    data:{"id":projectId,"logCurrentCount":logCurrentCount,limit:limit},
+                    dataType : "json",
+                    success : function(data){ },
+                    error : function(err){ console.log(err); }
+                  });   
+                  this.logCurrentCount = this.logCurrentCount*1+10;
+                  this.limit = this.limit*1+10;
+                  console.log(logList.responseJSON);                  
+                }                    
             }
 
             //체크리스트 등록 폼 열기 닫기
@@ -313,7 +342,39 @@ export default {
               }else{
                 this.checkAdd=true;
               }
-            }              
+            } 
+
+            //체크리스트 등록
+            ,checkAddAction : function(){
+
+            }
+
+            //체크리스트 삭제
+            ,checkDeleteAction : function(){
+              
+            }
+
+            //체크리스트 체크/해제
+            ,checkAction : function(id){
+
+                let ckValue=$('#ck'+id).prop('checked');
+                let projectId = this.projectId; //프로젝트id
+
+                let checkRequest = 
+                  $.ajax({
+                    url:context.hostUrl+'/projectCheckListCheck',
+                    async:false,
+                    type:'get',
+                    data:{"id":projectId,"ckValue":ckValue,"ckId":id},
+                    dataType : "json",
+                    success : function(data){ },
+                    error : function(err){ console.log(err); }
+                  });    
+
+                  this.checkListData = checkRequest.responseJSON.CHECKLIST;
+                  this.projectData.PROGRESS = checkRequest.responseJSON.PROGRESS;      
+
+            }             
 
           } //methods end  
 
@@ -325,6 +386,7 @@ export default {
     */
     var projectId = this.projectId; //프로젝트id
     var logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
+    var limit = this.limit
     
     /* ----------------------------------------------
     * 프로젝트ID로 프로젝트 상세정보, 로그, 체크리스트 가져오기
@@ -334,37 +396,20 @@ export default {
             url:context.hostUrl+'/projectDetailData',
             async:false,
             type:'get',
-            data:{"id":projectId,"logCurrentCount":logCurrentCount},
+            data:{"id":projectId,"logCurrentCount":logCurrentCount,limit:limit},
             dataType : "json",
             success : function(data){ },
             error : function(err){ console.log(err); }
           });   
 
+
       //가져온 상세정보 세팅
       this.projectData=projectInfo.responseJSON.projectDetail;
       this.logData=projectInfo.responseJSON.logList;
       this.checkListData=projectInfo.responseJSON.checkList;
-
-      
+      this.logCurrentCount = this.logCurrentCount*1+10;
+      this.limit = this.limit*1+10;
      
-
-
-    /* --------------------------------------------
-    * 요청주소에서 가져온 파라미터로 프로젝트 로그 가져오기
-    */    
-    var projectLog = 
-          $.ajax({
-
-          });     
-
-    /* -----------------------------------------------
-    * 요청주소에서 가져온 파라미터로 프로젝트 체크리스트 가져오기
-    */        
-    var projectCheckList = 
-          $.ajax({
-
-          });         
-
 
    } //mounted end
 
