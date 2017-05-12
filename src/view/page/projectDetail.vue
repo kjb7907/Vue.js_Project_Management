@@ -7,7 +7,7 @@
 
         <nav class="grey lighten-5">
           <div class="nav-wrapper">
-            <a class="brand-logo center"style="color:#41B883;"><i class="material-icons large">assignment</i>{{projectData.NAME}}</a>
+            <a class="brand-logo center"style="color:#41B883;"><i class="material-icons large">assignment</i>{{projectData.PRO_NAME}}</a>
           </div>
         </nav>  
 
@@ -19,8 +19,8 @@
             <div class="row">
               <div class="col s4">
                 <i class="large material-icons" style="color:#41B883">receipt</i>
-                <div>시작일 : {{projectData.PRO_STARTDATE}}</div>
-                <div>마감예정일 : {{projectData.PRO_CLOSEDATE}} </div>
+                <div>시작일 : {{projectData.PRO_START_DATE}}</div>
+                <div>마감예정일 : {{projectData.PRO_CLOSE_DATE}} </div>
               </div>
           
               <div class="col s4">
@@ -38,7 +38,7 @@
         
         <div class="col s8">
 
-          <div @scroll="logScroll()" id="logScroll" style="height:600px;overflow:auto">
+          <div id="logScroll" style="height:600px;overflow:auto">
 
             <div id="innerScroll" style="margin:5px;">
         
@@ -56,22 +56,21 @@
                 <!-- 로그 추가버튼 클릭시 -->
                 <div v-else>
                 
-                  <form id="logAddForm" method="POST">
                     <div style="padding: 10px 20px 30px 20px;">
 
                       <div class="input-field">
 
                         <!-- 프로젝트 ID -->
-                        <input name="proId"type="hidden" :value="projectData.PRO_ID">                          
+                        <input id="logAddProId"type="hidden" :value="projectData.PRO_ID">                          
 
                         <!-- 작성자 -->
-                        <input name="logWriter" id="input_text" type="text" data-length="10" style="width:40%">
+                        <input id="logAddWriter" type="text" data-length="10" style="width:40%">
                         <label for="icon_prefix">작성자</label>
                   
                         <!-- 본문 -->
                         <div class="row">
                           <div class="input-field col s12">
-                            <textarea name="logDetail" class="materialize-textarea" data-length="120"></textarea>
+                            <textarea id="logAddDetail" class="materialize-textarea" data-length="120"></textarea>
                             <label for="textarea1">본문</label>
                           </div>
                         </div>                      
@@ -83,13 +82,13 @@
                       <button @click="logAddAction()"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button> 
 
                     </div>                  
-                  </form>            
+         
                 </div>              
               </div>    
 
               <!-- 로그 -->
               
-              <div v-for="log in logData">
+              <div v-for="(log,index) in logData">
                 <div id="logMemo">
                     <div class="card" style="width:100%;min-height:100px;">
                                               
@@ -99,7 +98,7 @@
                         <div class="view log">
 
                           <!-- 작성자 -->
-                          <span style="color:#424242;margin-left:10px;">{{log.LOG_WRITER}}</span>
+                          <span style="color:#424242;margin-left:10px;">{{ index }} {{log.LOG_WRITER}} </span>
 
                           <!-- 작성일 -->
                           <span style="float:right;color:#747474;">{{log.LOG_DATE}} &nbsp;</span>
@@ -121,19 +120,18 @@
 
                         <!-- 로그 수정 폼 -->
                         <div class="edit log">
-                          <form :id="'logModifyForm'+log.LOG_ID">
-                            
+
                             <div class="row">
 
                               <!-- log id -->
-                              <input name="logId"type="hidden" :value="log.LOG_ID">   
+                              <input :id="'logModifyLogId'+log.LOG_ID" type="hidden" :value="log.LOG_ID">   
                               <!-- 작성자 -->
                               <div class="col s5">                        
-                                <input name="logWriter"type="text" style="font-size:10pt;"v-bind:value="log.LOG_WRITER"/>                     
+                                <input :id="'logModifyLogWriter'+log.LOG_ID" type="text" style="font-size:10pt;"v-bind:value="log.LOG_WRITER"/>                     
                               </div>
                               <!-- 본문 -->
                               <div class="input-field col s12">
-                                <textarea  name="logDetail"class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
+                                <textarea  :id="'logModifyDetail'+log.LOG_ID" class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
                               </div>     
 
                             </div>      
@@ -141,7 +139,7 @@
                             <button @click="logModifyCancel(log.LOG_ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">취소</button>   
                             <button @click="logModifyAction(log.LOG_ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button>      
 
-                          </form>                      
+               
                         </div>
 
 
@@ -149,7 +147,12 @@
 
                     </div>
                 </div>      
-              </div>   
+              </div> <!-- v-for end --> 
+
+                <!-- 로그 더보기 -->
+                <div v-if="formAdd" class="center-align">
+                  <a @click="logNextPage()" style="cursor:Pointer;"><i class="material-icons medium"style="color:#41B883">playlist_add</i></a>
+                </div>              
 
             </div> <!-- innerScroll end -->
      
@@ -173,18 +176,15 @@
                 <div>
                   <a @click="checkAddForm()" style="cursor:pointer;"><i class="material-icons"style="color:#41B883;">add</i></a>
                 </div>              
-              </div>             
+              </div>         
+                  
               <!-- 체크리스트 등록 폼 열기-->
               <div v-else>
                   <div><input type="text" id="ckDetail" name="ckDetail"></div>
                   <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">닫기</button>
                   <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">등록</button>                
               </div>
-
-
-              
-
-
+          
               <!-- 체크리스트 목록 -->
               <template v-for="check in checkListData">
 
@@ -251,11 +251,13 @@ export default {
                 url:context.hostUrl+'/projectLogAdd',
                 async:false,
                 type:'post',
-                data:$('#logAddForm').serialize(),
+                data:{proId:$('#logAddProId').val(),logWriter:$('#logAddWriter').val(),logDetail:$('#logAddDetail').val()},
                 dataType : "json",
                 success : function(data){ },
                 error : function(err){ console.log(err); }
               });  
+              location.reload();   
+
 
             }
 
@@ -285,11 +287,15 @@ export default {
                 url:context.hostUrl+'/projectLogModify',
                 async:false,
                 type:'post',
-                data:$('#logModifyForm'+logId).serialize(),
+                data:{ logId : $('#logModifyLogId'+logId).val()
+                      ,logWriter : $('#logModifyLogWriter'+logId).val()
+                      ,logDetail : $('#logModifyDetail'+logId).val()},
                 dataType : "json",
                 success : function(data){ },
                 error : function(err){ console.log(err); }
-              });                
+              });    
+              location.reload();   
+         
             }
 
             //로그 삭제버튼 클릭 삭제확인창 열기
@@ -308,28 +314,35 @@ export default {
               }         
             }
 
-            //로그 스크롤 끝 이벤트
-            ,logScroll : function(){
+            //로그 페이징
+            ,logNextPage : function(){
+
 
                 var proId = this.projectId; //프로젝트id
                 var logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
                 var limit = this.limit
 
-                if($('#logScroll').scrollTop()+10 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
-                  let logList = 
-                  $.ajax({
-                    url:context.hostUrl+'/projectLogRead',
-                    async:false,
-                    type:'post',
-                    data:{"proId":proId,"logCurrentCount":logCurrentCount,limit:limit},
-                    dataType : "json",
-                    success : function(data){ },
-                    error : function(err){ console.log(err); }
-                  });   
-                  this.logCurrentCount = this.logCurrentCount*1+10;
-                  this.limit = this.limit*1+10;
-                  console.log(logList.responseJSON);                  
-                }                    
+
+                let logList = 
+                $.ajax({
+                  url:context.hostUrl+'/projectLogRead',
+                  async:false,
+                  type:'post',
+                  data:{"proId":proId,"logCurrentCount":logCurrentCount,limit:limit},
+                  dataType : "json",
+                  success : function(data){ },
+                  error : function(err){ console.log(err); }
+                });   
+
+                this.logCurrentCount = this.logCurrentCount*1+10;
+                this.limit = this.limit*1+10;
+                let log=logList.responseJSON;
+                for(var i in log){
+                  this.logData.push(log[i]);
+                }
+
+                console.log(logList.responseJSON);                  
+                                   
             }
 
             //체크리스트 등록 폼 열기 닫기
@@ -344,7 +357,6 @@ export default {
             //체크리스트 등록
             ,checkAddAction : function(){
 
-                console.log(this.projectId);
                 let proId = this.projectId; //프로젝트id
 
                 let checkAddRequest = 
@@ -365,8 +377,24 @@ export default {
             }
 
             //체크리스트 삭제
-            ,checkDeleteAction : function(){
-              alert('삭제');
+            ,checkDeleteAction : function(ckId){
+
+                let proId = this.projectId; //프로젝트id
+
+                let checkAddRequest = 
+                  $.ajax({
+                    url:context.hostUrl+'/projectCheckListDelete',
+                    async:false,
+                    type:'post',
+                    data:{"proId":proId,"ckId":ckId},
+                    dataType : "json",
+                    success : function(data){ },
+                    error : function(err){ console.log(err); }
+                  });    
+
+                  this.checkListData = checkAddRequest.responseJSON.proCheckList;
+                  this.projectData.PRO_PROGRESS = checkAddRequest.responseJSON.proProgress;     
+                           
             }
 
             //체크리스트 체크/해제
