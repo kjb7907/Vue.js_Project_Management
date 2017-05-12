@@ -6,6 +6,7 @@ import logAdd from '@/view/page/logAdd'
 import projectDetail from '@/view/page/projectDetail'
 import projectList from '@/view/page/projectList'
 import projectAdd from '@/view/page/projectAdd'
+import projectModify from '@/view/page/projectModify'
 import schedule from '@/view/page/schedule'
 import board from '@/view/page/board'
 
@@ -33,7 +34,14 @@ export default new Router({
       path: '/projectAdd',
       name: 'projectAdd',
       component: projectAdd
-    },                
+    },           
+
+    //프로젝트 수정
+    {
+      path: '/projectModify/:projectId',
+      name: 'projectModify',
+      component: projectModify
+    },    
 
     //프로젝트 상세
     {

@@ -16,7 +16,7 @@
       <div class="card grey lighten-5 " style="padding:10px;">
         <div class="row">
 
-          <div class="col s3">
+          <div class="col s3 m6 l2">
             <div class="card"style="height:200px;">
             
               <div>
@@ -31,18 +31,27 @@
           <template v-for="project in projectListData">
 
             <router-link :to="'/projectDetail/'+project.PRO_ID" style="color:#4C4C4C">
-              <div class="col s3">
+              <div class="col s3 m6 l2">
                 <div class="card"style="min-height:200px;">
 
                   <div class="flow-text">
                     <div class="center-align" style="font-size:10pt;padding-top:40px;" >
-                      <div style="font-size:16pt;"><i class="material-icons" style="color:#41B883">description</i>{{project.PRO_NAME}}</div>          
 
+                      <!-- 프로젝트명 -->
+                      <div style="font-size:16pt;"><i class="material-icons" :style="'color:#'+project.PRO_COLOR">description</i>{{project.PRO_NAME}}</div>          
+
+                      <!-- 진행률 -->
                       <div>프로젝트 진행율: {{project.PRO_PROGRESS}}%
                         <div class="progress container" style="height:10px;">
-                          <div class="determinate" :style="'width:' +project.PRO_PROGRESS+'%;background-color:#41B883;'"></div>
+                          <div class="determinate" :style="'width:' +project.PRO_PROGRESS+'%;background-color:#'+project.PRO_COLOR+';'"></div>
                         </div>                  
                       </div>
+
+                      <!-- 수정 삭제 -->                                    
+                      <div style="position:absolute;top:85%;left:70%">
+                        <router-link :to="'/projectModify/'+project.PRO_ID"><a :style="'color:#'+project.PRO_COLOR+';'">수정</a></router-link>
+                      </div>
+
                     </div>
                   </div>   
 

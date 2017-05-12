@@ -1,25 +1,41 @@
 <template>
   <div id="app">
-    <nav class="nav-extended"style="background-color:#35495E ;">
-      <div class="nav-wrapper container">
-        <router-link to="/"><a href="#" class="brand-logo"><img src="../../assets/logo.png" style="height:60px"class="left">Title</a></router-link>
+    <div class="navbar-fixed">
 
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <nav style="background-color:#35495E ;">
+      
+        <div class="nav-wrapper container">
+          <router-link to="/"><a href="#" class="brand-logo"><img src="../../assets/logo.png" style="height:60px"class="left"></a></router-link>
 
-          <li><router-link to="/projectList"><i class="material-icons left">description</i></router-link></li>     
-          <li><router-link to="/logList"><i class="material-icons left">chat</i></router-link></li>
-          <li><router-link to="/schedule"><i class="material-icons left">today</i></router-link></li>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-          <li>
-            <a  data-activates="slide-out" class="sideBtn">
-              <i class="material-icons left">menu</i>
-            </a>
-          </li>                    
+            <li><router-link to="/projectList"><i class="material-icons left">description</i></router-link></li>     
+            <li><router-link to="/logList"><i class="material-icons left">chat</i></router-link></li>
+            <li><router-link to="/schedule"><i class="material-icons left">today</i></router-link></li>
 
-        </ul>
-      </div>
+            <li>
+              <a  data-activates="slide-out" class="sideBtn">
+                <i class="material-icons left">menu</i>
+              </a>
+            </li>                    
 
-    </nav>
+          </ul>
+
+
+          <a data-activates="nav-mobile1" class="button-collapse sideBtn"><i class="material-icons">menu</i></a>
+
+        </div>
+
+      </nav>
+
+    </div>
+
+    <!-- 모바일 네비바 -->
+    <ul id="nav-mobile1" class="side-nav">
+      <li><router-link to="/projectList">프로젝트 목록</router-link></li>     
+      <li><router-link to="/logList">로그</router-link></li>
+      <li><router-link to="/schedule">일정</router-link></li>
+    </ul>            
 
     <ul id="slide-out" class="side-nav">
 
@@ -38,6 +54,7 @@
 
   $(document).ready(function(){
     //사이드네비 슬라이더
+    $(".sideBtn").sideNav();
     $(".sideBtn").sideNav();
   });
 

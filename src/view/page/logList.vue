@@ -4,6 +4,8 @@
     <div class="container">
         <div style="height:10px;"></div>    
 
+        <h1>준비중</h1>
+
         <nav class="grey lighten-5">
           <div class="nav-wrapper">
             <a class="brand-logo center"style="color:#41B883;"><i class="material-icons large">chat</i>로그</a>
@@ -179,15 +181,6 @@ export default {
     }    
   }
 }
-$(document).on('click','.datepicker',function(){
-  $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15 // Creates a dropdown of 15 years to control year
-  });   
-})
-
-
-
 
 
 

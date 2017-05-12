@@ -2,7 +2,7 @@
   <div id="app">
   
     <div class="fixed-action-btn">
-        <a href="#/" class="btn-floating btn-large" style="background-color:#35495E;">
+        <a class="btn-floating btn-large" style="background-color:#35495E;">
         <i class="large material-icons">dashboard</i>
         </a>
         <ul>

@@ -7,28 +7,28 @@
 
         <nav class="grey lighten-5">
           <div class="nav-wrapper">
-            <a class="brand-logo center"style="color:#41B883;"><i class="material-icons large">assignment</i>{{projectData.PRO_NAME}}</a>
+            <a class="brand-logo center":style="'color:#'+projectData.PRO_COLOR+';'"><i class="material-icons large">assignment</i>{{projectData.PRO_NAME}}</a>
           </div>
         </nav>  
 
       <div class="card grey lighten-5 " style="padding:10px;">
         <div class="row">
 
-        <div class="col s12">
+        <div class="col s12 m12 l12">
           <div class="card"style="text-align:center">
             <div class="row">
               <div class="col s4">
-                <i class="large material-icons" style="color:#41B883">receipt</i>
+                <i class="large material-icons" :style="'color:#'+projectData.PRO_COLOR">receipt</i>
                 <div>시작일 : {{projectData.PRO_START_DATE}}</div>
                 <div>마감예정일 : {{projectData.PRO_CLOSE_DATE}} </div>
               </div>
           
               <div class="col s4">
-                <i class="large material-icons" style="color:#41B883">insert_chart</i>
+                <i class="large material-icons" :style="'color:#'+projectData.PRO_COLOR">insert_chart</i>
                 <div>프로젝트 진행율 : {{projectData.PRO_PROGRESS}}%</div>
                 <div class="container">
                   <div class="progress" style="height:20px">
-                      <div class="determinate" :style="'width:'+ projectData.PRO_PROGRESS+'%;background-color:#41B883'"></div>
+                      <div class="determinate" :style="'width:'+ projectData.PRO_PROGRESS+'%;background-color:#'+projectData.PRO_COLOR+';'"></div>
                   </div>
                 </div>           
               </div>                
@@ -36,14 +36,14 @@
           </div>
         </div>
         
-        <div class="col s8">
+        <div class="col s8 m12 l8">
 
           <div id="logScroll" style="height:600px;overflow:auto">
 
             <div id="innerScroll" style="margin:5px;">
         
               <div class="card"style="text-align:center">
-                <i class="material-icons" style="color:#41B883;position:relative;top:5px;">comment</i><span style="font-size:15pt;">로그</span>
+                <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">comment</i><span style="font-size:15pt;">로그</span>
               </div>
 
               <!-- 로그 등록 -->
@@ -51,7 +51,7 @@
 
                 <!-- 로그 추가 버튼 -->
                 <div v-if="formAdd" class="center-align">
-                  <a @click="logAddForm()" style="cursor:Pointer;"><i class="material-icons medium"style="color:#41B883">add</i></a>
+                  <a @click="logAddForm()" style="cursor:Pointer;"><i class="material-icons medium":style="'color:#'+projectData.PRO_COLOR+';'">add</i></a>
                 </div>
                 <!-- 로그 추가버튼 클릭시 -->
                 <div v-else>
@@ -78,8 +78,8 @@
                       </div>
 
 
-                      <button @click="logAddForm()"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">취소</button>                
-                      <button @click="logAddAction()"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button> 
+                      <button @click="logAddForm()"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">취소</button>                
+                      <button @click="logAddAction()"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">확인</button> 
 
                     </div>                  
          
@@ -113,8 +113,8 @@
                           </div> 
 
                           <!-- 버튼 -->
-                          <button @click="logDelForm(log.LOG_ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">삭제</button>    
-                          <button @click="logModifyForm(log.LOG_ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">수정</button>                                
+                          <button @click="logDelForm(log.LOG_ID)"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">삭제</button>    
+                          <button @click="logModifyForm(log.LOG_ID)"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">수정</button>                                
 
                         </div>
 
@@ -151,7 +151,7 @@
 
                 <!-- 로그 더보기 -->
                 <div v-if="formAdd" class="center-align">
-                  <a @click="logNextPage()" style="cursor:Pointer;"><i class="material-icons medium"style="color:#41B883">playlist_add</i></a>
+                  <a @click="logNextPage()" style="cursor:Pointer;"><i class="material-icons medium":style="'color:#'+projectData.PRO_COLOR+';'">playlist_add</i></a>
                 </div>              
 
             </div> <!-- innerScroll end -->
@@ -160,10 +160,10 @@
           
         </div>
 
-        <div class="col s4">
+        <div class="col s4 m12 l4">
         
           <div class="card"style="text-align:center">
-            <i class="material-icons" style="color:#41B883;position:relative;top:5px;">list</i><span style="font-size:15pt;">체크리스트</span>
+            <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">list</i><span style="font-size:15pt;">체크리스트</span>
           </div>
 
           <div class="card" style="height:550px;overflow:auto">       
@@ -174,15 +174,15 @@
               <div v-if="checkAdd" class="center-align">                
                 <!-- 체크리스트 등록 -->
                 <div>
-                  <a @click="checkAddForm()" style="cursor:pointer;"><i class="material-icons"style="color:#41B883;">add</i></a>
+                  <a @click="checkAddForm()" style="cursor:pointer;"><i class="material-icons":style="'color:#'+projectData.PRO_COLOR+';'">add</i></a>
                 </div>              
               </div>         
                   
               <!-- 체크리스트 등록 폼 열기-->
               <div v-else>
                   <div><input type="text" id="ckDetail" name="ckDetail"></div>
-                  <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">닫기</button>
-                  <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat"style="color:#41B883;font-size:10pt;float:right;">등록</button>                
+                  <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">닫기</button>
+                  <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">등록</button>                
               </div>
           
               <!-- 체크리스트 목록 -->
@@ -190,7 +190,7 @@
 
                 <p>
                   <input @click="checkAction(check.CK_ID)" type="checkbox" class="filled-in" :id="'ck'+check.CK_ID" :checked="(check.CK_SUCCESS == 'true')" />                
-                  <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> <span @click="checkDeleteAction(check.CK_ID)" style="cursor:pointer;font-size:15px;color:#41B883;">x</span>       
+                  <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
                 </p>
 
 
