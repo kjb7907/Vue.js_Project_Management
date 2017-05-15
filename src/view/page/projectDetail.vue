@@ -97,8 +97,11 @@
                         <!-- 로그 view-->                            
                         <div class="view log">
 
+                          <!-- 인덱스 번호 -->
+                          <input id="" type="hidden" :value="index">
+                          
                           <!-- 작성자 -->
-                          <span style="color:#424242;margin-left:10px;">{{ index }} {{log.LOG_WRITER}} </span>
+                          <span style="color:#424242;margin-left:10px;"> {{log.LOG_WRITER}} </span>
 
                           <!-- 작성일 -->
                           <span style="float:right;color:#747474;">{{log.LOG_DATE}} &nbsp;</span>

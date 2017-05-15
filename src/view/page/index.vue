@@ -17,7 +17,7 @@
                 </div>
                 <li class="collection-header"></li>
               </router-link>
-              <li class="collection-item">example1</li>
+
             </ul>         
 
         </div>
@@ -33,7 +33,7 @@
                 </div>
                 <li class="collection-header"></li>
               </router-link>
-              <li class="collection-item">example1</li>
+
             </ul>      
 
         </div>
@@ -49,7 +49,7 @@
                 </div>
                 <li class="collection-header"></li>
               </router-link>
-              <li class="collection-item">example1</li>
+
             </ul>         
 
         </div>                

@@ -41,7 +41,8 @@
               </div>
 
               <div style="text-align:center;">
-                <a class="waves-effect waves-light btn-large" style="background-color:#41B883">등록</a>              
+                <a class="waves-effect waves-light btn-large" style="background-color:#41B883">등록</a>             
+                <router-link to="/logList"><a class="waves-effect waves-light btn-large" style="background-color:#41B883">취소</a></router-link>     
               </div>
 
             </form>
@@ -71,8 +72,8 @@ export default {
   }
 
   ,mounted :function(){
-    $('#textarea1').val('New Text');
-    $('#textarea1').trigger('autoresize');    
+
+    $('#textarea1').trigger('autoresize');        
   }
 }
 </script>

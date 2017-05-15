@@ -3,9 +3,6 @@
   <div class="hello">
     <div class="container">
         <div style="height:10px;"></div>    
-
-        <h1>준비중</h1>
-
         <nav class="grey lighten-5">
           <div class="nav-wrapper">
             <a class="brand-logo center"style="color:#41B883;"><i class="material-icons large">chat</i>로그</a>
@@ -17,7 +14,7 @@
           <!-- 로그 -->
 
 
-          <div class="col s9 flow-text">
+          <div class="col s9 m12 l9 flow-text">
 
             <!-- 로그 추가 -->
             <div class="card grey lighten-5">
@@ -38,39 +35,40 @@
                 <div v-for="log in logData">
                   <div class="card grey lighten-5 moaTitle">
                     <div style="padding:5px;font-size:10pt">
-                      <div class="row" :id="'logId'+log.id">
+                      <div class="row" :id="'logId'+log.logId">
 
                         <!-- 로그 view -->
                         <div class="view">
                           <div class="col s2">
-                            {{log.writer}} :                  
+                            {{log.LOG_WRITER}} :                  
                           </div>
 
                           <div class="col s8">
-                            {{log.detail}}
+                            {{log.LOG_DETAIL}}
                           </div>  
 
                           <div class="col s2">
-                            <div style="font-size:8pt;color:#41B883">{{log.project}}</div>  
-                            {{log.date}}</br>
-                            <a class="pointer" @click="logUpdateForm(log.id)">수정</a> 
-                            <a class="pointer" @click="logDeleteForm(log.id)">삭제</a>
+                            <div style="font-size:8pt;color:#41B883">{{log.LOG_PROJECT}}</div>  
+                            {{log.LOG_DATE}}</br>
+                            <a class="pointer" @click="logUpdateForm(log.LOG_ID)">수정</a> 
+                            <a class="pointer" @click="logDeleteForm(log.LOG_ID)">삭제</a>
                           </div>                     
                         </div>
 
                         <!-- 로그 edit -->
                         <div class="edit">
+                        
                           <div class="col s2">
-                            <input type="text" :value="log.writer">                
+                            <input type="text" :value="log.LOG_WRITER">                
                           </div>
 
                           <div class="col s8">
-                            <textarea class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.detail}}</textarea>
+                            <textarea class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
                           </div>  
 
                           <div class="col s2">
-                            <a class="pointer" @click="logUpdateForm(log.id)">확인</a> 
-                            <a class="pointer" @click="logUpdateFormOut(log.id)">취소</a>
+                            <a class="pointer" @click="logUpdateForm(log.LOG_ID)">확인</a> 
+                            <a class="pointer" @click="logUpdateFormOut(log.LOG_ID)">취소</a>
                           </div>                        
                         </div>
                                         
@@ -84,29 +82,37 @@
           </div>
 
           <!-- 모아보기 -->
-          <div class="col s3 flow-text">
+          <div class="col s3 m12 l3 flow-text">
 
-            <div class="card grey lighten-5 center-align moaTitle">
-              <span style="font-size:15pt;">날짜별 모아보기</span>
-              <div style="padding-left:10px;padding-right:10px;">
-                <input type="date" class="datepicker">
+            <div class="row">
+
+              <div class="col s12 m6 l12">
+                <div class="card grey lighten-5 center-align moaTitle">
+                  <span style="font-size:15pt;">날짜별 모아보기</span>
+                  <div style="padding-left:10px;padding-right:10px;">
+                    <input type="date" class="datepicker"> ~
+                    <input type="date" class="datepicker">
+                  </div>
+                  <div style="text-align:right;">
+                    <a class="waves-effect waves-light btn" style="background-color:#41B883;margin-bottom:5px;">모아보기</a>
+                  </div>              
+                </div>
               </div>
-              <div style="text-align:right;">
-                <a class="waves-effect waves-light btn" style="background-color:#41B883;margin-bottom:5px;">정렬</a>
-              </div>              
-            </div>
 
-            <div class="card grey lighten-5 center-align moaTitle">
-              <span style="font-size:15pt;">프로젝트별 모아보기</span>
-              <div style="padding-left:10px;padding-right:10px;">
-              </div>              
-            </div>    
+              <div class="col s12 m6 l12">
+                <div class="card grey lighten-5 center-align moaTitle">
+                  <span style="font-size:15pt;">프로젝트별 모아보기</span>
+                  <div style="padding-left:10px;padding-right:10px;">
+                  </div>     
+                  <div class="collection" style="font-size:11pt;">
+                    <a @click="projectLogSearch(1)" id="proItem1" class="collection-item projectSelector" style="cursor:pointer">프로젝트1</a>
+                    <a @click="projectLogSearch(2)" id="proItem2" class="collection-item projectSelector" style="cursor:pointer">프로젝트2</a>
+                    <a @click="projectLogSearch(3)" id="proItem3" class="collection-item projectSelector" style="cursor:pointer">프로젝트3</a>
+                    <a @click="projectLogSearch(4)" id="proItem4" class="collection-item projectSelector" style="cursor:pointer">프로젝트4</a>
+                  </div>                       
+                </div>               
+              </div>    
 
-            <div class="collection card" style="font-size:11pt;">
-              <a class="collection-item">프로젝트1</a>
-              <a class="collection-item active">프로젝트2</a>
-              <a class="collection-item">프로젝트3</a>
-              <a class="collection-item">프로젝트4</a>
             </div>
 
           </div>          
@@ -119,6 +125,8 @@
 
 <script>
 
+var context = require('../../context.js');
+
 export default {
 
   name: 'logList',
@@ -128,18 +136,23 @@ export default {
   data () {
     return {
       logData:[
-              {id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문1',project:'project1'},
-              {id:'2', writer:'작성자2',date:'2017-4-24',detail:'본문2',project:'project2'},
-              {id:'3', writer:'작성자3',date:'2017-4-24',detail:'본문3',project:'project3'},
-              {id:'4', writer:'작성자4',date:'2017-4-24',detail:'본문4',project:'project4'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'},
-              {id:'5', writer:'작성자5',date:'2017-4-24',detail:'본문5',project:'project5'}        
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
+
       ]
+      ,projectData:[
+
+      ]
+      ,logCurrentCount:1
+      ,limit:10
     }
   },
   methods:{
@@ -153,6 +166,7 @@ export default {
       $('#logId'+logId).find('.view').show();
       $('#logId'+logId).find('.edit').hide();
     },
+
     //로그 삭제 확인 창
     logDeleteForm : function(){
       if(confirm('삭제하시겠습니까?')==true){
@@ -161,24 +175,37 @@ export default {
 
       }    
     },
-    //날짜별 모아보기 
-    //프로젝트별 모아보기
-    //로그스크롤 끝
-    logScroll(){   
-        if($('#logScroll').scrollTop()+20 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문asd2asd'});
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본123d문2asd'});
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문asdasd2asd'});
 
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문2aasdasdsd'});
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본asdas문2asd'});
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본asd문2asd'});
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본asd문2asd'});
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문sdasd2asd'});
-          this.logData.push({id:'1', writer:'작성자1',date:'2017-4-24',detail:'본문asd2asd'});
-          
-        }             
+    //날짜별 모아보기 
+
+    //로그스크롤 끝
+    logScroll : function(){   
+        if($('#logScroll').scrollTop()+20 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
+          console.log('test');
+          this.logData.push({LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'});
+          this.logData.push({LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'});
+          this.logData.push({LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},);     
+        }
     }    
+
+    //프로젝트별 모아보기
+    ,projectLogSearch : function(proId){
+      $('.projectSelector').removeClass('active');
+      $('#proItem'+proId).addClass('active')
+    }
+
+  } //methods end
+
+  ,mounted : function(){
+
+    //init logData
+
+    //datepicker
+    $('.datepicker').pickadate({
+        format: 'yyyy-mm-dd',
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15 // Creates a dropdown of 15 years to control year
+      });       
   }
 }
 
