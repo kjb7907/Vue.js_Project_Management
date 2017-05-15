@@ -70,7 +70,7 @@
                         <!-- 본문 -->
                         <div class="row">
                           <div class="input-field col s12">
-                            <textarea id="logAddDetail" class="materialize-textarea" data-length="120"></textarea>
+                            <textarea v-on:keyup.enter="logAddAction" id="logAddDetail" class="materialize-textarea" data-length="120"></textarea>
                             <label for="textarea1">본문</label>
                           </div>
                         </div>                      
@@ -116,8 +116,8 @@
                           </div> 
 
                           <!-- 버튼 -->
-                          <button @click="logDelForm(log.LOG_ID)"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">삭제</button>    
-                          <button @click="logModifyForm(log.LOG_ID)"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">수정</button>                                
+                          <button @click="logDelForm(log.LOG_ID,index)"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">삭제</button>    
+                          <button @click="logModifyForm(log.LOG_ID,index)"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">수정</button>                                
 
                         </div>
 
@@ -126,8 +126,6 @@
 
                             <div class="row">
 
-                              <!-- log id -->
-                              <input :id="'logModifyLogId'+log.LOG_ID" type="hidden" :value="log.LOG_ID">   
                               <!-- 작성자 -->
                               <div class="col s5">                        
                                 <input :id="'logModifyLogWriter'+log.LOG_ID" type="text" style="font-size:10pt;"v-bind:value="log.LOG_WRITER"/>                     
@@ -140,7 +138,7 @@
                             </div>      
                             
                             <button @click="logModifyCancel(log.LOG_ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">취소</button>   
-                            <button @click="logModifyAction(log.LOG_ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button>      
+                            <button @click="logModifyAction(log.LOG_ID,index)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button>      
 
                
                         </div>
@@ -250,6 +248,7 @@ export default {
             //로그 등록
             ,logAddAction : function(){
 
+              let logAddAction =
               $.ajax({
                 url:context.hostUrl+'/projectLogAdd',
                 async:false,
@@ -259,8 +258,12 @@ export default {
                 success : function(data){ },
                 error : function(err){ console.log(err); }
               });  
-              location.reload();   
 
+
+              let log = logAddAction.responseJSON;
+
+              this.formAdd=true;
+              this.logData.unshift(log) ;
 
             }
 
@@ -285,24 +288,36 @@ export default {
             }
 
             //로그 수정  
-            ,logModifyAction : function(logId){
+            ,logModifyAction : function(logId,index){
               $.ajax({
                 url:context.hostUrl+'/projectLogModify',
                 async:false,
                 type:'post',
-                data:{ logId : $('#logModifyLogId'+logId).val()
+                data:{ logId : logId
                       ,logWriter : $('#logModifyLogWriter'+logId).val()
                       ,logDetail : $('#logModifyDetail'+logId).val()},
                 dataType : "json",
                 success : function(data){ },
                 error : function(err){ console.log(err); }
               });    
-              location.reload();   
+              
+              let log = { LOG_ID : logId
+                      ,LOG_WRITER : $('#logModifyLogWriter'+logId).val()
+                      ,LOG_DETAIL : $('#logModifyDetail'+logId).val()}
+
+              this.logData.splice(index,1,log);  
+
+              $("#memoKey"+logId).find(".view").each(function(){
+                $(this).show();
+              });
+              $("#memoKey"+logId).find(".edit").each(function(){
+                $(this).hide();
+              });                 
          
             }
 
             //로그 삭제버튼 클릭 삭제확인창 열기
-            ,logDelForm :function(logId){
+            ,logDelForm :function(logId,index){
               if(confirm('삭제하시겠습니까?')==true){
                 $.ajax({
                   url:context.hostUrl+'/projectLogDelete',
@@ -313,7 +328,7 @@ export default {
                   success : function(data){ },
                   error : function(err){ console.log(err); }
                 });      
-                location.reload();                
+                this.logData.splice(index,1);               
               }         
             }
 

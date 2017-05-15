@@ -33,11 +33,10 @@
             <div @scroll="logScroll()" id="logScroll" style="height:600px;overflow:auto">
               <div id="innerScroll" style="margin:5px;">
 
-                <template v-for="log in logData">
+                <template v-for="(log,index) in logData">
                   <div class="card grey lighten-5" :style="'border-left: solid;border-left-color: #'+log.PRO_COLOR+';'">
                     <div style="padding:5px;font-size:10pt">
                       <div class="row" :id="'logId'+log.LOG_ID">
-
                         <!-- 로그 view -->
                         <div class="view">
                           <div class="col s2">
@@ -51,8 +50,8 @@
                           <div class="col s2">
                             <div :style="'font-size:8pt;color:#'+log.PRO_COLOR+';'">{{log.PRO_NAME}}</div>  
                             {{log.LOG_DATE}}</br>
-                            <a class="pointer" @click="logUpdateForm(log.LOG_ID)">수정</a> 
-                            <a class="pointer" @click="logDeleteForm(log.LOG_ID)">삭제</a>
+                            <a class="pointer" @click="logUpdateForm(log.LOG_ID,index)">수정</a> 
+                            <a class="pointer" @click="logDeleteForm(log.LOG_ID,index)">삭제</a>
                           </div>                     
                         </div>
 
@@ -60,15 +59,15 @@
                         <div class="edit">
                         
                           <div class="col s2">
-                            <input type="text" :value="log.LOG_WRITER">                
+                            <input type="text" :value="log.LOG_WRITER" :id="'logModifyLogWriter'+log.LOG_ID">                
                           </div>
 
                           <div class="col s8">
-                            <textarea class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
+                            <textarea :id="'logModifyDetail'+log.LOG_ID"class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
                           </div>  
 
                           <div class="col s2">
-                            <a class="pointer" @click="logUpdateForm(log.LOG_ID)">확인</a> 
+                            <a class="pointer" @click="logUpdateAction(log.LOG_ID,index)">확인</a> 
                             <a class="pointer" @click="logUpdateFormOut(log.LOG_ID)">취소</a>
                           </div>                        
                         </div>
@@ -147,24 +146,56 @@ export default {
     logUpdateForm : function(logId){
       $('#logId'+logId).find('.edit').show();
       $('#logId'+logId).find('.view').hide();
-    },
+    }
     //로그 수정 폼 닫기
-    logUpdateFormOut : function(logId){
+    ,logUpdateFormOut : function(logId){
       $('#logId'+logId).find('.view').show();
       $('#logId'+logId).find('.edit').hide();
-    },
+    }
+
+    //로그 수정
+    ,logUpdateAction : function(logId,index){
+
+      $.ajax({
+        url:context.hostUrl+'/projectLogModify',
+        async:false,
+        type:'post',
+        data:{ logId : logId
+              ,logWriter : $('#logModifyLogWriter'+logId).val()
+              ,logDetail : $('#logModifyDetail'+logId).val()},
+        dataType : "json",
+        success : function(data){ },
+        error : function(err){ console.log(err); }
+      });    
+
+      this.logData[index].LOG_WRITER = $('#logModifyLogWriter'+logId).val();
+      this.logData[index].LOG_DETAIL = $('#logModifyDetail'+logId).val();
+      $('#logId'+logId).find('.view').show();
+      $('#logId'+logId).find('.edit').hide();      
+    }
 
     //로그 삭제 확인 창
-    logDeleteForm : function(){
-      if(confirm('삭제하시겠습니까?')==true){
+    ,logDeleteForm : function(logId,index){
 
+      if(confirm('삭제하시겠습니까?'+index)==true){
+        $.ajax({
+          url:context.hostUrl+'/projectLogDelete',
+          async:false,
+          type:'post',
+          data:{logId:logId},
+          dataType : "json",
+          success : function(data){ },
+          error : function(err){ console.log(err); }
+        });   
+
+        this.logData.splice(index,1);  
       }else{
 
       }    
-    },
+    }
 
     //로그스크롤 끝 페이징
-    logScroll : function(){   
+    ,logScroll : function(){   
         if($('#logScroll').scrollTop()+20 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
 
           let getLogData = 

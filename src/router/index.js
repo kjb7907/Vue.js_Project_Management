@@ -8,7 +8,7 @@ import projectList from '@/view/page/projectList'
 import projectAdd from '@/view/page/projectAdd'
 import projectModify from '@/view/page/projectModify'
 import schedule from '@/view/page/schedule'
-import board from '@/view/page/board'
+
 
 Vue.use(Router)
 
@@ -71,12 +71,7 @@ export default new Router({
       component: schedule
     },           
 
-    //게시판
-    {
-      path: '/board',
-      name: 'board',
-      component: board
-    }
+
 
   ]
 })
