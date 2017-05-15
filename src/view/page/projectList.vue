@@ -16,7 +16,7 @@
       <div class="card grey lighten-5 " style="padding:10px;">
         <div class="row">
 
-          <div class="col s3 m6 l2">
+          <div class="col s3 m6 l3">
             <div class="card"style="height:200px;">
             
               <div>
@@ -31,12 +31,15 @@
           <template v-for="project in projectListData">
 
             <router-link :to="'/projectDetail/'+project.PRO_ID" style="color:#4C4C4C">
-              <div class="col s3 m6 l2">
+              <div class="col s3 m6 l3">
                 <div class="card"style="min-height:200px;">
 
                   <div class="flow-text">
                     <div class="center-align" style="font-size:10pt;padding-top:40px;" >
-
+                      
+                      <!-- 진행률 100퍼시 마감 -->
+                      <div v-if="project.PRO_PROGRESS==100" style="font-size:13pt;color:RED;"><b>프로젝트 마감</b></div>
+                      
                       <!-- 프로젝트명 -->
                       <div style="font-size:16pt;"><i class="material-icons" :style="'color:#'+project.PRO_COLOR">description</i>{{project.PRO_NAME}}</div>          
 
@@ -46,6 +49,9 @@
                           <div class="determinate" :style="'width:' +project.PRO_PROGRESS+'%;background-color:#'+project.PRO_COLOR+';'"></div>
                         </div>                  
                       </div>
+
+                      <!-- 프로젝트 시작일 -->
+                      <div>시작일:{{project.PRO_START_DATE}}</div>
 
                       <!-- 수정 삭제 -->                                    
                       <div style="position:absolute;top:85%;left:70%">

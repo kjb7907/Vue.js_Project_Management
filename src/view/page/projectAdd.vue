@@ -104,7 +104,8 @@ export default {
         error : function(err){ console.log(err); }
       });  
 
-      location.href=context.clientHostUrl+'/#/projectList';
+      //location.href=context.clientHostUrl+'/#/projectList';
+      this.$router.push('/projectList');
     }
   }
   ,mounted : function(){

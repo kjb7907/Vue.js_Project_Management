@@ -32,15 +32,16 @@
 
             <div @scroll="logScroll()" id="logScroll" style="height:600px;overflow:auto">
               <div id="innerScroll" style="margin:5px;">
-                <div v-for="log in logData">
-                  <div class="card grey lighten-5 moaTitle">
+
+                <template v-for="log in logData">
+                  <div class="card grey lighten-5" :style="'border-left: solid;border-left-color: #'+log.PRO_COLOR+';'">
                     <div style="padding:5px;font-size:10pt">
-                      <div class="row" :id="'logId'+log.logId">
+                      <div class="row" :id="'logId'+log.LOG_ID">
 
                         <!-- 로그 view -->
                         <div class="view">
                           <div class="col s2">
-                            {{log.LOG_WRITER}} :                  
+                            {{log.LOG_WRITER}}                  
                           </div>
 
                           <div class="col s8">
@@ -48,7 +49,7 @@
                           </div>  
 
                           <div class="col s2">
-                            <div style="font-size:8pt;color:#41B883">{{log.LOG_PROJECT}}</div>  
+                            <div :style="'font-size:8pt;color:#'+log.PRO_COLOR+';'">{{log.PRO_NAME}}</div>  
                             {{log.LOG_DATE}}</br>
                             <a class="pointer" @click="logUpdateForm(log.LOG_ID)">수정</a> 
                             <a class="pointer" @click="logDeleteForm(log.LOG_ID)">삭제</a>
@@ -75,7 +76,8 @@
                       </div>
                     </div>           
                   </div>            
-                </div>    
+                </template>  
+
               </div>
             </div> 
                                                                                             
@@ -88,7 +90,7 @@
 
               <div class="col s12 m6 l12">
                 <div class="card grey lighten-5 center-align moaTitle">
-                  <span style="font-size:15pt;">날짜별 모아보기</span>
+                  <span style="font-size:13pt;">날짜별 모아보기</span>
                   <div style="padding-left:10px;padding-right:10px;">
                     <input type="date" class="datepicker"> ~
                     <input type="date" class="datepicker">
@@ -100,15 +102,12 @@
               </div>
 
               <div class="col s12 m6 l12">
-                <div class="card grey lighten-5 center-align moaTitle">
-                  <span style="font-size:15pt;">프로젝트별 모아보기</span>
-                  <div style="padding-left:10px;padding-right:10px;">
-                  </div>     
+                <div class="card grey lighten-5 center-align moaTitle" style="height:400px;overflow:auto;">
+                  <span style="font-size:13pt;">프로젝트별 모아보기</span>
                   <div class="collection" style="font-size:11pt;">
-                    <a @click="projectLogSearch(1)" id="proItem1" class="collection-item projectSelector" style="cursor:pointer">프로젝트1</a>
-                    <a @click="projectLogSearch(2)" id="proItem2" class="collection-item projectSelector" style="cursor:pointer">프로젝트2</a>
-                    <a @click="projectLogSearch(3)" id="proItem3" class="collection-item projectSelector" style="cursor:pointer">프로젝트3</a>
-                    <a @click="projectLogSearch(4)" id="proItem4" class="collection-item projectSelector" style="cursor:pointer">프로젝트4</a>
+                    <template v-for="project in projectData">
+                      <a @click="projectLogSearch(project.PRO_ID)" :id="'proItem'+project.PRO_ID" class="collection-item projectSelector" style="cursor:pointer">{{project.PRO_NAME}}</a>                    
+                    </template>
                   </div>                       
                 </div>               
               </div>    
@@ -135,22 +134,8 @@ export default {
   },
   data () {
     return {
-      logData:[
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-                {LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},
-
-      ]
-      ,projectData:[
-
-      ]
+      logData:[ ]
+      ,projectData:[ ]
       ,logCurrentCount:1
       ,limit:10
     }
@@ -178,13 +163,29 @@ export default {
 
     //날짜별 모아보기 
 
-    //로그스크롤 끝
+    //로그스크롤 끝 페이징
     logScroll : function(){   
         if($('#logScroll').scrollTop()+20 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
-          console.log('test');
-          this.logData.push({LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'});
-          this.logData.push({LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'});
-          this.logData.push({LOG_ID:'1', LOG_WRITER:'작성자1',LOG_DATE:'2017-4-24',LOG_DETAIL:'본문1',LOG_PROJECT:'project1'},);     
+          let logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
+          let limit = this.limit    
+
+          let getLogData = 
+          $.ajax({
+            url:context.hostUrl+'/searchAllLog',
+            async:false,
+            type:'post',
+            data:{logCurrentCount:logCurrentCount,limit:limit},
+            dataType : "json",
+            success : function(data){ },
+            error : function(err){ console.log(err); }
+          }); 
+
+          let log = getLogData.responseJSON
+          for(var i in log){
+            this.logData.push(log[i]);
+          }
+          this.logCurrentCount = this.logCurrentCount+10
+          this.limit = this.limit+10;    
         }
     }    
 
@@ -198,7 +199,39 @@ export default {
 
   ,mounted : function(){
 
+    let logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
+    let limit = this.limit    
+
     //init logData
+    let initLogData = 
+      $.ajax({
+        url:context.hostUrl+'/searchAllLog',
+        async:false,
+        type:'post',
+        data:{logCurrentCount:logCurrentCount,limit:limit},
+        dataType : "json",
+        success : function(data){ },
+        error : function(err){ console.log(err); }
+      }); 
+
+    this.logData=initLogData.responseJSON;
+    this.logCurrentCount = this.logCurrentCount+10
+    this.limit = this.limit+10;
+
+    //init projectData
+    let initProjectData =
+      $.ajax({
+        url:context.hostUrl+'/searchLogProject',
+        async:false,
+        type:'post',
+        data:{logCurrentCount:logCurrentCount,limit:limit},
+        dataType : "json",
+        success : function(data){ },
+        error : function(err){ console.log(err); }
+      });     
+
+      this.projectData=initProjectData.responseJSON;
+ 
 
     //datepicker
     $('.datepicker').pickadate({

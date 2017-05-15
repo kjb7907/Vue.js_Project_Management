@@ -183,7 +183,7 @@
                   
               <!-- 체크리스트 등록 폼 열기-->
               <div v-else>
-                  <div><input type="text" id="ckDetail" name="ckDetail"></div>
+                  <div><input v-on:keyup.enter="checkAddAction" type="text" id="ckDetail" name="ckDetail"></div>
                   <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">닫기</button>
                   <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">등록</button>                
               </div>
@@ -373,6 +373,7 @@ export default {
                     error : function(err){ console.log(err); }
                   });    
 
+                  $('#ckDetail').val('');
                   this.checkListData = checkAddRequest.responseJSON.proCheckList;
                   this.projectData.PRO_PROGRESS = checkAddRequest.responseJSON.proProgress;  
  
@@ -428,7 +429,7 @@ export default {
   ,mounted : function(){    
 
     /* -------------------------------------------
-    * 라우터에서 매개변수 얻기
+    * 매개변수 얻기
     */
     var proId = this.projectId; //프로젝트id
     var logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
