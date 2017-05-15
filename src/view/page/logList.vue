@@ -92,11 +92,11 @@
                 <div class="card grey lighten-5 center-align moaTitle">
                   <span style="font-size:13pt;">날짜별 모아보기</span>
                   <div style="padding-left:10px;padding-right:10px;">
-                    <input type="date" class="datepicker"> ~
-                    <input type="date" class="datepicker">
+                    <input type="date" id="logStartDate" class="datepicker"> ~
+                    <input type="date" id="logEndDate"class="datepicker">
                   </div>
                   <div style="text-align:right;">
-                    <a class="waves-effect waves-light btn" style="background-color:#41B883;margin-bottom:5px;">모아보기</a>
+                    <a @click="dateLogSearch" class="waves-effect waves-light btn" style="background-color:#41B883;margin-bottom:5px;">모아보기</a>
                   </div>              
                 </div>
               </div>
@@ -138,6 +138,8 @@ export default {
       ,projectData:[ ]
       ,logCurrentCount:1
       ,limit:10
+      ,logType:'total'
+      ,projectId:''
     }
   },
   methods:{
@@ -161,20 +163,21 @@ export default {
       }    
     },
 
-    //날짜별 모아보기 
-
     //로그스크롤 끝 페이징
     logScroll : function(){   
         if($('#logScroll').scrollTop()+20 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
-          let logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
-          let limit = this.limit    
 
           let getLogData = 
           $.ajax({
             url:context.hostUrl+'/searchAllLog',
             async:false,
             type:'post',
-            data:{logCurrentCount:logCurrentCount,limit:limit},
+            data:{'logType':this.logType
+                  ,'logCurrentCount':this.logCurrentCount
+                  ,'limit':this.limit,'proId':this.projectId
+                  ,'logStartDate':$('#logStartDate').val()
+                  ,'logEndDate':$('#logEndDate').val()
+            },
             dataType : "json",
             success : function(data){ },
             error : function(err){ console.log(err); }
@@ -190,17 +193,60 @@ export default {
     }    
 
     //프로젝트별 모아보기
-    ,projectLogSearch : function(proId){
+    ,projectLogSearch : function(id){
       $('.projectSelector').removeClass('active');
-      $('#proItem'+proId).addClass('active')
+      $('#proItem'+id).addClass('active')
+
+      this.logCurrentCount=1;
+      this.limit=10;
+      this.logType='project';
+      this.projectId=id;
+
+      let getlogDataforProId = 
+      $.ajax({
+        url:context.hostUrl+'/searchAllLog',
+        async:false,
+        type:'post',
+        data:{'logType':this.logType,'logCurrentCount':this.logCurrentCount,'limit':this.limit,'proId':this.projectId},
+        dataType : "json",
+        success : function(data){ },
+        error : function(err){ console.log(err); }
+      }); 
+
+
+      this.logCurrentCount+=10;
+      this.limit+=10;  
+      this.logData=getlogDataforProId.responseJSON;
+
     }
+
+    //날짜별 모아보기
+    ,dateLogSearch : function(){
+      
+      this.logCurrentCount=1;
+      this.limit=10;
+      this.logType='date';
+   
+      let getlogDataforProDate = 
+      $.ajax({
+        url:context.hostUrl+'/searchAllLog',
+        async:false,
+        type:'post',
+        data:{'logType':this.logType,'logCurrentCount':this.logCurrentCount,'limit':this.limit,'logStartDate':$('#logStartDate').val(),'logEndDate':$('#logEndDate').val()},
+        dataType : "json",
+        success : function(data){ },
+        error : function(err){ console.log(err); }
+      });      
+
+      this.logCurrentCount+=10;
+      this.limit+=10;      
+      this.logData=getlogDataforProDate.responseJSON;
+    }  
+      
 
   } //methods end
 
   ,mounted : function(){
-
-    let logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
-    let limit = this.limit    
 
     //init logData
     let initLogData = 
@@ -208,7 +254,7 @@ export default {
         url:context.hostUrl+'/searchAllLog',
         async:false,
         type:'post',
-        data:{logCurrentCount:logCurrentCount,limit:limit},
+        data:{'logType':this.logType,'logCurrentCount':this.logCurrentCount,'limit':this.limit},
         dataType : "json",
         success : function(data){ },
         error : function(err){ console.log(err); }
@@ -224,7 +270,7 @@ export default {
         url:context.hostUrl+'/searchLogProject',
         async:false,
         type:'post',
-        data:{logCurrentCount:logCurrentCount,limit:limit},
+        data:{'logCurrentCount':this.logCurrentCount,'limit':this.limit},
         dataType : "json",
         success : function(data){ },
         error : function(err){ console.log(err); }
@@ -239,6 +285,11 @@ export default {
         selectMonths: true, // Creates a dropdown to control month
         selectYears: 15 // Creates a dropdown of 15 years to control year
       });       
+
+    
+    if($('#logStartDate').val()!==''){
+      $('.picker').hide();
+    }
   }
 }
 

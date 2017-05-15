@@ -39,6 +39,7 @@
                       
                       <!-- 진행률 100퍼시 마감 -->
                       <div v-if="project.PRO_PROGRESS==100" style="font-size:13pt;color:RED;"><b>프로젝트 마감</b></div>
+                      <div v-if="project.PRO_PROGRESS<100" style="font-size:13pt;color:GREEN;"><b>진 행 중</b></div>
                       
                       <!-- 프로젝트명 -->
                       <div style="font-size:16pt;"><i class="material-icons" :style="'color:#'+project.PRO_COLOR">description</i>{{project.PRO_NAME}}</div>          
