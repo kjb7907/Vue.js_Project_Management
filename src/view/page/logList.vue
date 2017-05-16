@@ -31,7 +31,7 @@
             </div>             
 
             <div @scroll="logScroll()" id="logScroll" style="height:600px;overflow:auto">
-              <div id="innerScroll" style="margin:2px;">
+              <div id="innerScroll" style="margin:10px;">
 
                 <template v-for="(log,index) in logData">
                   <div class="card grey lighten-5" :style="'border-left: solid;border-left-color: #'+log.PRO_COLOR+';'">
