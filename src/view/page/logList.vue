@@ -14,7 +14,7 @@
           <!-- 로그 -->
 
 
-          <div class="col s9 m12 l9 flow-text">
+          <div class="col s12 m9 flow-text">
 
             <!-- 로그 추가 -->
             <div class="card grey lighten-5">
@@ -83,11 +83,11 @@
           </div>
 
           <!-- 모아보기 -->
-          <div class="col s3 m12 l3 flow-text">
+          <div class="col s12 m3 flow-text">
 
             <div class="row">
 
-              <div class="col s12 m6 l12">
+              <div class="col s12">
                 <div class="card grey lighten-5 center-align moaTitle">
                   <span style="font-size:13pt;">날짜별 모아보기</span>
                   <div style="padding-left:10px;padding-right:10px;">
@@ -100,7 +100,7 @@
                 </div>
               </div>
 
-              <div class="col s12 m6 l12">
+              <div class="col s12">
                 <div class="card grey lighten-5 center-align moaTitle" style="height:400px;overflow:auto;">
                   <span style="font-size:13pt;">프로젝트별 모아보기</span>
                   <div class="collection" style="font-size:11pt;">
@@ -177,7 +177,7 @@ export default {
     //로그 삭제 확인 창
     ,logDeleteForm : function(logId,index){
 
-      if(confirm('삭제하시겠습니까?'+index)==true){
+      if(confirm('삭제하시겠습니까?')==true){
         $.ajax({
           url:context.hostUrl+'/projectLogDelete',
           async:false,

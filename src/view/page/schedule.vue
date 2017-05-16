@@ -1,44 +1,56 @@
 
 <template>
   <div class="hello">
-    <div class="container">
-      <h5>준비중</h5>
+    
+    <div class="row">
+      <div class="col s12">
+        <full-calendar :events="fcEvents" locale="en"></full-calendar>
+      </div>
     </div>
+  
   </div>
 </template>
 
 <script>
+var demoEvents = [
+	{
+      title : '캘린더 테스트1',
+      start : '2017-05-10',
+      end : '2017-05-10'
+    }
 
+  ,	{
+      title : '캘린더 테스트2',
+      start : '2017-05-10',
+      end : '2017-05-10'
+    }
+  ,	{
+      title : '캘린더 테스트3',
+      start : '2017-05-12',
+      end : '2017-05-12'
+    }    
+]
 export default {
 
   name: 'schedule',
   components: {
-    'topNaviMenu': () => import('../module/topNaviMenu'),
-    'floatingMenu': () => import('../module/floatingMenu')
+    'full-calendar': require('vue-fullcalendar')
   },
   data () {
     return {
-      msg: 'index',
+        fcEvents : demoEvents
       }
-    },
-  methods:{
-    ajaxTest:function(){
-        $.ajax({
-            url:'/ajaxTest',
-            type:'get',
-            data:'',
-            dataType : "json",
-            success:function(data){ 
-              console.log('성공');
-              console.log(data);
-            },
-            error:function(err){
-              console.log('실패');
-              console.log(err);
-            }
-        });
-    }    
-  }
+    }
+  ,methods:{
+
+
+  } //method end
+
+  ,mounted : function(){
+
+
+  } //mounted end
+
 }
 </script>
 

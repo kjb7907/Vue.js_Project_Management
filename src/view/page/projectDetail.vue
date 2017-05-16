@@ -14,7 +14,7 @@
       <div class="card grey lighten-5 " style="padding:10px;">
         <div class="row">
 
-        <div class="col s12 m12 l12">
+        <div class="col s12 m12">
           <div class="card"style="text-align:center">
             <div class="row">
               <div class="col s4">
@@ -36,7 +36,7 @@
           </div>
         </div>
         
-        <div class="col s8 m12 l8">
+        <div class="col s12 m9">
 
           <div id="logScroll" style="height:600px;overflow:auto">
 
@@ -161,7 +161,7 @@
           
         </div>
 
-        <div class="col s4 m12 l4">
+        <div class="col s12 m3">
         
           <div class="card"style="text-align:center">
             <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">list</i><span style="font-size:15pt;">체크리스트</span>

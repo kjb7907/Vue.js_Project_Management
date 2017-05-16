@@ -6,7 +6,7 @@
 
         <div style="height:10px;"></div>
 
-        <div class="col s4">
+        <div class="col s12 m4">
       
 
             <ul class="collection with-header card">
@@ -22,7 +22,7 @@
 
         </div>
 
-        <div class="col s4">
+        <div class="col s12 m4">
 
 
             <ul class="collection with-header card">
@@ -38,7 +38,7 @@
 
         </div>
 
-        <div class="col s4">
+        <div class="col s12 m4">
 
 
             <ul class="collection with-header card">

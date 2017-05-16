@@ -8,9 +8,11 @@ import projectList from '@/view/page/projectList'
 import projectAdd from '@/view/page/projectAdd'
 import projectModify from '@/view/page/projectModify'
 import schedule from '@/view/page/schedule'
-
+import fullCalendar from 'vue-fullcalendar'
 
 Vue.use(Router)
+
+
 
 export default new Router({
   routes: [
