@@ -14,9 +14,10 @@
       <div class="card grey lighten-5 " style="padding:10px;">
         <div class="row">
 
-        <div class="col s12 m12">
+        <div class="col s12 m12 l12">
           <div class="card"style="text-align:center">
             <div class="row">
+
               <div class="col s4">
                 <i class="large material-icons" :style="'color:#'+projectData.PRO_COLOR">receipt</i>
                 <div>시작일 : {{projectData.PRO_START_DATE}}</div>
@@ -31,12 +32,18 @@
                       <div class="determinate" :style="'width:'+ projectData.PRO_PROGRESS+'%;background-color:#'+projectData.PRO_COLOR+';'"></div>
                   </div>
                 </div>           
-              </div>                
+              </div> 
+
+              <div class="col s4">
+                <i class="large material-icons" :style="'color:#'+projectData.PRO_COLOR">assignment_ind</i>
+                <div>담당자 연락처 : 010 - 5555 - 5555</div>      
+              </div>               
+
             </div>    
           </div>
         </div>
         
-        <div class="col s12 m9">
+        <div class="col s12 m12 l8">
 
           <div id="logScroll" style="height:600px;overflow:auto">
 
@@ -161,7 +168,7 @@
           
         </div>
 
-        <div class="col s12 m3">
+        <div class="col s12 m12 l4">
         
           <div class="card"style="text-align:center">
             <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">list</i><span style="font-size:15pt;">체크리스트</span>

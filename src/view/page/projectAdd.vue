@@ -45,7 +45,7 @@
                   <div class="col s9">
                     <div class="colorbox" style="background-color:#41B883;" colorValue="41B883"></div>
                     <div class="colorbox" style="background-color:#0277bd;" colorValue="0277bd"></div>
-                    <div class="colorbox" style="background-color:#ef5350;" colorValue="ef5350"></div>
+                    <div class="colorbox" style="background-color:#e57373;" colorValue="e57373"></div>
                     <div class="colorbox" style="background-color:#fb8c00;" colorValue="fb8c00"></div>
                     <div class="colorbox" style="background-color:#00bcd4;" colorValue="00bcd4"></div>
                     <div class="colorbox" style="background-color:#ec407a;" colorValue="ec407a"></div>            

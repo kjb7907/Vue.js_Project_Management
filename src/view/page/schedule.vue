@@ -47,7 +47,7 @@ export default {
   } //method end
 
   ,mounted : function(){
-
+    
 
   } //mounted end
 

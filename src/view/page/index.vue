@@ -6,14 +6,14 @@
 
         <div style="height:10px;"></div>
 
-        <div class="col s12 m4">
+        <div class="col s12 m6 l4">
       
 
             <ul class="collection with-header card">
               <router-link to="/projectList">
                 <div style="text-align:center;color:#41B883">
                   <i class="large material-icons">description</i>
-                  <div>프로젝트</div>      
+                  <div>프로젝트 관리</div>      
                 </div>
                 <li class="collection-header"></li>
               </router-link>
@@ -22,14 +22,14 @@
 
         </div>
 
-        <div class="col s12 m4">
+        <div class="col s12 m6 l4">
 
 
             <ul class="collection with-header card">
               <router-link to="/logList">
                 <div style="text-align:center;color:#41B883">
                   <i class="large material-icons">chat</i>
-                  <div>로그</div>      
+                  <div>전체 프로젝트 로그</div>      
                 </div>
                 <li class="collection-header"></li>
               </router-link>
@@ -38,21 +38,55 @@
 
         </div>
 
-        <div class="col s12 m4">
+        <div class="col s12 m6 l4">
 
 
             <ul class="collection with-header card">
               <router-link to="/schedule">
                 <div style="text-align:center;color:#41B883">
                   <i class="large material-icons">today</i>
-                  <div>일정</div>      
+                  <div>일정 관리</div>      
                 </div>
                 <li class="collection-header"></li>
               </router-link>
 
             </ul>         
 
-        </div>                
+        </div>         
+
+        <div class="col s12 m6 l4">
+
+
+            <ul class="collection with-header card">
+              <router-link to="/">
+                <div style="text-align:center;color:#41B883">
+                  <i class="large material-icons">picture_in_picture</i>
+                  <div>프로젝트 장애 모니터링(준비중)</div>      
+                </div>
+                <li class="collection-header"></li>
+              </router-link>
+
+            </ul>         
+
+        </div>  
+
+        <div class="col s12 m6 l4">
+
+
+            <ul class="collection with-header card">
+              <router-link to="/">
+                <div style="text-align:center;color:#41B883">
+                  <i class="large material-icons">today</i>
+                  <div>자료실(준비중)</div>      
+                </div>
+                <li class="collection-header"></li>
+              </router-link>
+
+            </ul>         
+
+        </div>          
+
+
 
       </div>
     </div>
