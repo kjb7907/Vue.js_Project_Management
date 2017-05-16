@@ -36,7 +36,7 @@
 
               <div class="col s4">
                 <i class="large material-icons" :style="'color:#'+projectData.PRO_COLOR">assignment_ind</i>
-                <div>담당자 연락처 : 010 - 5555 - 5555</div>      
+                <div>담당자 연락처 : {{projectData.PRO_CONTACT}}</div>      
               </div>               
 
             </div>    

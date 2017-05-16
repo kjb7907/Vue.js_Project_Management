@@ -37,12 +37,17 @@
 
                 <div class="row">
 
+                  <div class="col s4">
+                    담당자 연락처
+                    <input id="proContact" type="text" :value="projectData.PRO_CONTACT">
+                  </div>                    
+
                   <div class="col s3">
                     색상
                     <input id="proColor" type="text" :value="projectData.PRO_COLOR">
                   </div>    
 
-                  <div class="col s9">
+                  <div class="col s2">
                     <div class="colorbox" style="background-color:#41B883;" colorValue="41B883"></div>
                     <div class="colorbox" style="background-color:#0277bd;" colorValue="0277bd"></div>
                     <div class="colorbox" style="background-color:#e57373;" colorValue="e57373"></div>
@@ -50,7 +55,6 @@
                     <div class="colorbox" style="background-color:#00bcd4;" colorValue="00bcd4"></div>
                     <div class="colorbox" style="background-color:#ec407a;" colorValue="ec407a"></div>            
                   </div>                                         
-
 
                 </div>                  
 
@@ -106,6 +110,7 @@ export default {
           ,proStartDate:$('#proStartDate').val()
           ,proCloseDate:$('#proCloseDate').val()
           ,proColor:$('#proColor').val()
+          ,proContact:$('#proContact').val()
           ,proId:proId
           },
         dataType : "json",
