@@ -18,16 +18,16 @@
               <div class="row">
 
                 <div class="input-field col s6">
-                  <input id="first_name" type="text" class="validate">
+                  <input id="logAddWriter" type="text" class="validate">
                   <label for="first_name">작성자명</label>
                 </div>
 
                 <div class="input-field col s6">
-                  <select class="browser-default">
+                  <select id="logAddProId" class="browser-default">
                     <option value="" disabled selected>분류</option> 
-                    <option value="1">프로젝트 1</option>
-                    <option value="2">프로젝트 2</option>
-                    <option value="3">프로젝트 3</option>
+                    <template v-for="project in projectData">
+                      <option :value="project.PRO_ID">{{project.PRO_NAME}}</option>
+                    </template>
                   </select>
                 </div>
 
@@ -35,13 +35,13 @@
 
               <div class="row">
                 <div class="input-field col s12">
-                  <textarea id="textarea1" class="materialize-textarea"></textarea>
-                  <label for="textarea1">Textarea</label>
+                  <textarea id="logAddDetail" class="materialize-textarea"></textarea>
+                  <label for="textarea1">본문</label>
                 </div>
               </div>
 
               <div style="text-align:center;">
-                <a class="waves-effect waves-light btn-large" style="background-color:#41B883">등록</a>             
+                <input @click="logAddAction" type="button" class="waves-effect waves-light btn-large" value="등록" style="background-color:#41B883">             
                 <router-link to="/logList"><a class="waves-effect waves-light btn-large" style="background-color:#41B883">취소</a></router-link>     
               </div>
 
@@ -55,27 +55,68 @@
 
 <script>
 
+var context = require('../../context.js');
+
 export default {
 
-  name: 'hello',
+  name: 'name',
+
   components: {
     
   },
+
   data () {
     return {
-      msg: 'index'
+      projectData : ''
+      
     }
   }
 
-  ,methods :{
+  ,methods : {  
 
-  }
+    //로그 등록
+    logAddAction : function(){
+      let logAddAction =
+      $.ajax({
+        url:context.hostUrl+'/projectLogAdd',
+        async:false,
+        type:'post',
+        data:{proId:$('#logAddProId').val(),logWriter:$('#logAddWriter').val(),logDetail:$('#logAddDetail').val()},
+        dataType : "json",
+        success : function(data){ },
+        error : function(err){ console.log(err); }
+      });  
 
-  ,mounted :function(){
+      this.$router.push('/logList');
+    }
+    ,
+  } //methods end  
 
-    $('#textarea1').trigger('autoresize');        
-  }
-}
+  // mounted == document ready 
+  ,mounted : function(){ 
+
+    //init projectData
+    let initProjectData =
+      $.ajax({
+        url:context.hostUrl+'/searchLogProject',
+        async:false,
+        type:'post',
+        data:{ },
+        dataType : "json",
+        success : function(data){ },
+        error : function(err){ console.log(err); }
+      });     
+
+      this.projectData=initProjectData.responseJSON;
+
+  } //mounted end
+
+
+} //export default end   
+
+
+
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

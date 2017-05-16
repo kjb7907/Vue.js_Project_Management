@@ -196,7 +196,8 @@ export default {
 
     //로그스크롤 끝 페이징
     ,logScroll : function(){   
-        if($('#logScroll').scrollTop()+20 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
+
+        if($('#logScroll').scrollTop()+60 > $('#innerScroll').height() - $('#logScroll').height()+45 ){
 
           let getLogData = 
           $.ajax({
@@ -301,13 +302,14 @@ export default {
         url:context.hostUrl+'/searchLogProject',
         async:false,
         type:'post',
-        data:{'logCurrentCount':this.logCurrentCount,'limit':this.limit},
+        data:{ },
         dataType : "json",
         success : function(data){ },
         error : function(err){ console.log(err); }
       });     
 
       this.projectData=initProjectData.responseJSON;
+      
  
 
     //datepicker
