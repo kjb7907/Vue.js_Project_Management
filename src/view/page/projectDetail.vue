@@ -118,7 +118,7 @@
                           <div class="divider" style="margin:10px;"></div>    
 
                           <!-- 본문 -->                                                  
-                          <div class="col s12">
+                          <div class="col s12" style="word-break: break-all;">
                             {{log.LOG_DETAIL}}
                           </div> 
 

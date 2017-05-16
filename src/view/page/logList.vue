@@ -31,28 +31,37 @@
             </div>             
 
             <div @scroll="logScroll()" id="logScroll" style="height:600px;overflow:auto">
-              <div id="innerScroll" style="margin:5px;">
+              <div id="innerScroll" style="margin:2px;">
 
                 <template v-for="(log,index) in logData">
                   <div class="card grey lighten-5" :style="'border-left: solid;border-left-color: #'+log.PRO_COLOR+';'">
-                    <div style="padding:5px;font-size:10pt">
+                    <div style="padding:2px;font-size:9pt">
                       <div class="row" :id="'logId'+log.LOG_ID">
                         <!-- 로그 view -->
                         <div class="view">
-                          <div class="col s2">
-                            {{log.LOG_WRITER}}                  
+                          <div class="col s12">
+                            {{log.LOG_WRITER}} 
+                            <span style="float:right;">                       
+                              <span :style="'font-size:8pt;color:#'+log.PRO_COLOR+';'">{{log.PRO_NAME}}</span> 
+                              {{log.LOG_DATE}}
+                            </span>                                             
                           </div>
 
-                          <div class="col s8">
-                            {{log.LOG_DETAIL}}
+                          <div class="divider"></div> 
+
+
+                          <div class="col s12" style="word-break: break-all;">
+                            <div class="divider" style="margin:10px;"></div> 
+                            {{log.LOG_DETAIL}}           
                           </div>  
 
-                          <div class="col s2">
-                            <div :style="'font-size:8pt;color:#'+log.PRO_COLOR+';'">{{log.PRO_NAME}}</div>  
-                            {{log.LOG_DATE}}</br>
-                            <a class="pointer" @click="logUpdateForm(log.LOG_ID,index)">수정</a> 
-                            <a class="pointer" @click="logDeleteForm(log.LOG_ID,index)">삭제</a>
-                          </div>                     
+                          <div class="col s12">
+                            <span style="float:right;">
+                              <a class="pointer" @click="logUpdateForm(log.LOG_ID,index)">수정</a> 
+                              <a class="pointer" @click="logDeleteForm(log.LOG_ID,index)">삭제</a>                              
+                            </span>                          
+                          </div>
+                 
                         </div>
 
                         <!-- 로그 edit -->
