@@ -30,7 +30,7 @@
       <!-- 일정 등록 modal -->
       <div id="scheduleAdd" class="modal">
         <div class="modal-content">
-          <h4>일정등록</h4>
+          <h4 style="font-weight:lighter;">일정등록</h4>
           <div class="row">
 
             
@@ -69,16 +69,22 @@
       </div>  
 
       <!-- day 상세 modal -->
-      <div id="dayDetail" class="modal">
+      <div id="dayDetail" class="modal" style="max-width:500px;">
         <div class="modal-content">
-          <h4>2017 - 5 -20 의 일정</h4>
-          <p>A bunch of text</p>
+
+          <template v-for="(day,index) in dayEvents">
+            <div style="font-size:14pt;font-weight:lighter;">
+              {{day.title}} 
+              <a @click="dayScheduleDelete(day.SCH_ID,index)" style="font-size:10pt;">삭제</a>
+            </div>
+          </template>
+
         </div>
         <div class="modal-footer">
           <button @click="modalClose" class="modal-action modal-close waves-effect waves-green btn-flat">닫기</button>
         </div>
-      </div>      
 
+      </div>      
     </div>
 
  
@@ -100,11 +106,13 @@ export default {
   
   data () {
     return {
-        fcEvents : []
+        fcEvents : [ ]
+        ,dayEvents : [ ]
       }
     }
   ,methods:{
 
+    //달 변경
     changeMonth : function(start, end, current){
       console.log('changeMonth : '+start, end, current);
 
@@ -119,29 +127,45 @@ export default {
         error : function(err){ console.log(err); }
       });   
 
-      console.log(getSchadueData.responseJSON);
       this.fcEvents = getSchadueData.responseJSON;  
 
     }
 
-    ,dayClick : function(event, jsEvent, pos){
-      console.log('dayClick : '+event);
+    //일 클릭
+    ,dayClick : function(date, jsEvent, pos){
+
+      //yyyy-mm-dd변환
+      function pad(num) {
+          num = num + '';
+          return num.length < 2 ? '0' + num : num;
+      }
+      let celDate = date.getFullYear() +'' + pad(1+date.getMonth()) +'' + pad(date.getDate());
+
+      let getSchadueData =
+      $.ajax({
+        url:context.hostUrl+'/searchDaySchedule',
+        async:false,
+        type:'post',
+        data:{celDate:celDate},
+        dataType : "json",
+        success : function(data){ },
+        error : function(err){ console.log(err); }
+      });   
+
+      this.dayEvents = getSchadueData.responseJSON;
+     
       $('#dayDetail').modal('open');
     }
 
-    ,eventClick : function(event){
-      console.log(event );
-      //$('#modal1').modal('open');
-    }
+    ,eventClick : function(date){ }
 
-    ,moreClick : function(){
-      console.log('moreClick');
-      
-    }
+    ,moreClick : function(){ }
+
     ,scheduleAddModalOpen : function(){
       $('#scheduleAdd').modal('open');
     }
 
+    //일정등록
     ,scheduleAddAction : function(){
       let addSchedule =
       $.ajax({
@@ -156,11 +180,54 @@ export default {
         dataType : "json",
         success : function(data){ },
         error : function(err){ console.log(err); }
-      });   
-    }    
+      });  
+
+      let sch = {
+        title : $('#schDetail').val() 
+        ,start : $('#schStartDate').val()
+        ,end : $('#schCloseDate').val()
+        ,cssClass : $('#schColor').val()
+      }   
+
+      this.fcEvents.push(sch);  
+
+    } 
+
+    //일정삭제
+    ,dayScheduleDelete : function(SCH_ID,index){
+      if(confirm('일정을 삭제 하시겠습니까?')==true){
+
+        let schduleDelete=
+        $.ajax({
+          url:context.hostUrl+'/deleteSchedule',
+          async:false,
+          type:'post',
+          data:{ schId:SCH_ID},
+          dataType : "json",
+          success : function(data){ },
+          error : function(err){ console.log(err); }
+        });
+
+        //day event 에서 제거
+        this.dayEvents.splice(index,1);
+        //fc event 에서 제거
+        let arr = this.fcEvents     
+        for(var i in arr){
+          if(arr[i].SCH_ID==SCH_ID){
+            arr.splice(i,1)
+            return ;
+          }
+        }  
+
+      }
+    }   
 
     ,modalClose : function(){
       $('.modal').modal('close');
+    }
+    ,setModal:function(date){
+    
+          console.log(date);   
     }
 
 
