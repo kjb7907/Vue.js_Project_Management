@@ -109,8 +109,9 @@ export default {
         error : function(err){ console.log(err); }
       });  
 
-      //location.href=context.clientHostUrl+'/#/projectList';
+      
       this.$router.push('/projectList');
+      Materialize.toast('프로젝트가 등록되었습니다.!', 4000);
     }
   }
   ,mounted : function(){

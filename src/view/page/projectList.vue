@@ -3,8 +3,6 @@
   <div class="hello">
     <div class="container">
 
-    
-
         <div style="height:10px;"></div>    
 
         <nav class="grey lighten-5">
@@ -34,7 +32,7 @@
               <div class="col s12 m6 l3">
                 <div class="card"style="min-height:200px;">
 
-                  <div class="flow-text">
+                  
                     <div class="center-align" style="font-size:10pt;padding-top:10px;" >
                       
                       <!-- 진행률 100퍼시 마감 -->
@@ -69,7 +67,7 @@
                       </div>
 
                     </div>
-                  </div>   
+                  
 
                 </div>
               </div>   

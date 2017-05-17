@@ -14,7 +14,7 @@
           <!-- 로그 -->
 
 
-          <div class="col s12 m12 l9 flow-text">
+          <div class="col s12 m12 l9">
 
             <!-- 로그 추가 -->
             <div class="card grey lighten-5">

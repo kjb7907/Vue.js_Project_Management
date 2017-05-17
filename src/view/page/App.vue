@@ -30,10 +30,12 @@ export default {
 }
 
 
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 body{
   background-color: #f5f5f5;
-  font-family: "Nanum Gothic", sans-serif;
+  font-family: "NOTO", sans-serif;
+  font-weight: NORMAL;
   font-size:10pt;
 }
 

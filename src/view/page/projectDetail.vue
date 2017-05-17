@@ -271,6 +271,7 @@ export default {
 
               this.formAdd=true;
               this.logData.unshift(log) ;
+              Materialize.toast('로그가 등록되었습니다.!', 4000);
 
             }
 
