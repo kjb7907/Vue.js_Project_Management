@@ -51,7 +51,7 @@
 
             <div class="col s12 l3">
               일정 색상
-              <input type="text" id="schColor">
+              <input type="text" id="schColor" value="cal-normal">
             </div>        
 
             <div class="col s12 l6">
@@ -114,7 +114,6 @@ export default {
 
     //달 변경
     changeMonth : function(start, end, current){
-      console.log('changeMonth : '+start, end, current);
 
       let getSchadueData =
       $.ajax({
@@ -182,14 +181,21 @@ export default {
         error : function(err){ console.log(err); }
       });  
 
+      console.log(addSchedule.responseJSON);
       let sch = {
-        title : $('#schDetail').val() 
+        SCH_ID:addSchedule.responseJSON.schId
+        ,title : $('#schDetail').val() 
         ,start : $('#schStartDate').val()
         ,end : $('#schCloseDate').val()
         ,cssClass : $('#schColor').val()
       }   
-
+      
       this.fcEvents.push(sch);  
+
+        title : $('#schDetail').val('');
+        start : $('#schStartDate').val('');
+        end : $('#schCloseDate').val('');
+        cssClass : $('#schColor').val('cal-normal');      
 
     } 
 
@@ -211,7 +217,8 @@ export default {
         //day event 에서 제거
         this.dayEvents.splice(index,1);
         //fc event 에서 제거
-        let arr = this.fcEvents     
+        let arr = this.fcEvents   
+        console.log(arr);  
         for(var i in arr){
           if(arr[i].SCH_ID==SCH_ID){
             arr.splice(i,1)
