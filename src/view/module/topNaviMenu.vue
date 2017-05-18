@@ -5,7 +5,7 @@
       <nav style="background-color:#35495E ;">
       
         <div class="nav-wrapper container">
-          <router-link to="/"><a href="#" class="brand-logo"><img src="../../assets/logo.png" style="height:60px"class="left"></a></router-link>
+          <router-link to="/"><a href="#" class="brand-logo"><img src="../../assets/logo.png" style="margin-top:5px;"></a></router-link>
 
           <ul id="nav-mobile" class="right hide-on-med-and-down">
 
