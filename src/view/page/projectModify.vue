@@ -59,6 +59,13 @@
                 </div>                  
 
                 <div class="row">
+
+                  <div class="col s3">
+                    MEMBER KEY
+                    <input id="memberKey" type="password">
+                  </div>      
+
+
                   <div class="col s6">
                     <button @click="projectModifyAction()" class="waves-effect waves-light btn-large" style="background-color:#41B883">수정</button> 
                     <router-link to="/projectList"><button class="waves-effect waves-light btn-large" style="background-color:#41B883">취소</button></router-link>              
@@ -99,26 +106,33 @@ export default {
 
     projectModifyAction : function(){
 
-      var proId=this.projectId;
-      $.ajax({
+      if($('#memberKey').val()==context.memberKey){
+        var proId=this.projectId;
+        $.ajax({
 
-        url:context.hostUrl+'/projectModify',
-        async:false,
-        type:'post',
-        data:{
-          proName:$('#proName').val()
-          ,proStartDate:$('#proStartDate').val()
-          ,proCloseDate:$('#proCloseDate').val()
-          ,proColor:$('#proColor').val()
-          ,proContact:$('#proContact').val()
-          ,proId:proId
-          },
-        dataType : "json",
-        success : function(data){ },
-        error : function(err){ console.log(err); }
-      });  
+          url:context.hostUrl+'/projectModify',
+          async:false,
+          type:'post',
+          data:{
+            proName:$('#proName').val()
+            ,proStartDate:$('#proStartDate').val()
+            ,proCloseDate:$('#proCloseDate').val()
+            ,proColor:$('#proColor').val()
+            ,proContact:$('#proContact').val()
+            ,proId:proId
+            },
+          dataType : "json",
+          success : function(data){ },
+          error : function(err){ console.log(err); }
+        });  
 
-      this.$router.push('/projectList');
+        this.$router.push('/projectList');
+        Materialize.toast('프로젝트가 수정되었습니다..!', 4000);
+      } else {
+        Materialize.toast('멤버키 불일치..!', 4000);
+      }
+
+
     }      
 
   } //methods end  

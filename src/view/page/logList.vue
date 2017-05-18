@@ -67,17 +67,19 @@
                         <!-- 로그 edit -->
                         <div class="edit">
                         
-                          <div class="col s2">
-                            <input type="text" :value="log.LOG_WRITER" :id="'logModifyLogWriter'+log.LOG_ID">                
+                          <div class="col s12">
+                            <input type="text" :value="log.LOG_WRITER" :id="'logModifyLogWriter'+log.LOG_ID" style="width:40%">
+                            <!-- log modify member key -->
+                            <input :id="'logModifyMemberKey'+log.LOG_ID" type="password" data-length="10" placeholder="MEMBERKEY"style="width:40%">                                                         
                           </div>
 
-                          <div class="col s8">
+                          <div class="col s11">
                             <textarea :id="'logModifyDetail'+log.LOG_ID"class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
                           </div>  
 
-                          <div class="col s2">
-                            <a class="pointer" @click="logUpdateAction(log.LOG_ID,index)">확인</a> 
-                            <a class="pointer" @click="logUpdateFormOut(log.LOG_ID)">취소</a>
+                          <div class="col s12" style="text-align:right">
+                            <a class="waves-effect waves-teal btn-flat" @click="logUpdateAction(log.LOG_ID,index)">확인</a> 
+                            <a class="waves-effect waves-teal btn-flat" @click="logUpdateFormOut(log.LOG_ID)">취소</a>
                           </div>                        
                         </div>
                                         
@@ -163,30 +165,35 @@ export default {
     }
 
     //로그 수정
-    ,logUpdateAction : function(logId,index){
+    ,logUpdateAction : function(logId,index){    
+        if($('#logModifyMemberKey'+logId).val() == context.memberKey){
+        $.ajax({
+          url:context.hostUrl+'/projectLogModify',
+          async:false,
+          type:'post',
+          data:{ logId : logId
+                ,logWriter : $('#logModifyLogWriter'+logId).val()
+                ,logDetail : $('#logModifyDetail'+logId).val()},
+          dataType : "json",
+          success : function(data){ },
+          error : function(err){ console.log(err); }
+        });    
 
-      $.ajax({
-        url:context.hostUrl+'/projectLogModify',
-        async:false,
-        type:'post',
-        data:{ logId : logId
-              ,logWriter : $('#logModifyLogWriter'+logId).val()
-              ,logDetail : $('#logModifyDetail'+logId).val()},
-        dataType : "json",
-        success : function(data){ },
-        error : function(err){ console.log(err); }
-      });    
-
-      this.logData[index].LOG_WRITER = $('#logModifyLogWriter'+logId).val();
-      this.logData[index].LOG_DETAIL = $('#logModifyDetail'+logId).val();
-      $('#logId'+logId).find('.view').show();
-      $('#logId'+logId).find('.edit').hide();      
+        this.logData[index].LOG_WRITER = $('#logModifyLogWriter'+logId).val();
+        this.logData[index].LOG_DETAIL = $('#logModifyDetail'+logId).val();
+        $('#logId'+logId).find('.view').show();
+        $('#logId'+logId).find('.edit').hide(); 
+        Materialize.toast('로그가 수정되었습니다..!', 4000);  
+      }else {
+        Materialize.toast('멤버키 불일치.!', 4000);
+      }
+   
     }
 
     //로그 삭제 확인 창
     ,logDeleteForm : function(logId,index){
-
-      if(confirm('삭제하시겠습니까?')==true){
+      var logDeleteMemberKey = prompt("멤버키 입력");
+      if(logDeleteMemberKey == context.memberKey){
         $.ajax({
           url:context.hostUrl+'/projectLogDelete',
           async:false,
@@ -196,11 +203,12 @@ export default {
           success : function(data){ },
           error : function(err){ console.log(err); }
         });   
-
-        this.logData.splice(index,1);  
-      }else{
-
-      }    
+        Materialize.toast('로그가 삭제되었습니다..!', 4000);
+        this.logData.splice(index,1);          
+      } else {
+        Materialize.toast('멤버키 불일치.!', 4000);
+      }
+  
     }
 
     //로그스크롤 끝 페이징
@@ -328,10 +336,6 @@ export default {
         selectYears: 15 // Creates a dropdown of 15 years to control year
       });       
 
-    
-    if($('#logStartDate').val()!==''){
-      $('.picker').hide();
-    }
   }
 }
 

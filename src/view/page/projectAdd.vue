@@ -59,6 +59,12 @@
                 </div>                  
 
                 <div class="row">
+
+                  <div class="col s3">
+                    MEMBER KEY
+                    <input id="memberKey" type="password">
+                  </div>      
+
                   <div class="col s6">
                     <button @click="projectAddAction()" class="waves-effect waves-light btn-large" style="background-color:#41B883">등록</button> 
                     <router-link to="/projectList"><button class="waves-effect waves-light btn-large" style="background-color:#41B883">취소</button></router-link>              
@@ -92,26 +98,30 @@ export default {
   }
   ,methods : {
     projectAddAction : function(){
-      $.ajax({
 
-        url:context.hostUrl+'/projectAdd',
-        async:false,
-        type:'post',
-        data:{
-          proName:$('#proName').val()
-          ,proStartDate:$('#proStartDate').val()
-          ,proCloseDate:$('#proCloseDate').val()
-          ,proColor:$('#proColor').val()
-          ,proContact:$('#proContact').val()
-          },
-        dataType : "json",
-        success : function(data){ },
-        error : function(err){ console.log(err); }
-      });  
+      if($('#memberKey').val()==context.memberKey){
+        $.ajax({
 
+          url:context.hostUrl+'/projectAdd',
+          async:false,
+          type:'post',
+          data:{
+            proName:$('#proName').val()
+            ,proStartDate:$('#proStartDate').val()
+            ,proCloseDate:$('#proCloseDate').val()
+            ,proColor:$('#proColor').val()
+            ,proContact:$('#proContact').val()
+            },
+          dataType : "json",
+          success : function(data){ },
+          error : function(err){ console.log(err); }
+        });  
       
-      this.$router.push('/projectList');
-      Materialize.toast('프로젝트가 등록되었습니다.!', 4000);
+        this.$router.push('/projectList');
+        Materialize.toast('프로젝트가 등록되었습니다.!', 4000);
+      }else{
+        Materialize.toast('멤버키 불일치.!', 4000);
+      }
     }
   }
   ,mounted : function(){

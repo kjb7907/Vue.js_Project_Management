@@ -40,9 +40,17 @@
                 </div>
               </div>
 
-              <div style="text-align:center;">
-                <input @click="logAddAction" type="button" class="waves-effect waves-light btn-large" value="등록" style="background-color:#41B883">             
-                <router-link to="/logList"><a class="waves-effect waves-light btn-large" style="background-color:#41B883">취소</a></router-link>     
+              <div class="row">
+
+                <div class="col s12 l4">
+                  <input id="logAddMemberKey" type="password" placeholder="MEMBERKEY">
+                </div>
+
+                <div class="col s12 l6">
+                  <input @click="logAddAction" type="button" class="waves-effect waves-light btn-large" value="등록" style="background-color:#41B883">             
+                  <router-link to="/logList"><a class="waves-effect waves-light btn-large" style="background-color:#41B883">취소</a></router-link>                     
+                </div>
+
               </div>
 
             </form>
@@ -76,18 +84,24 @@ export default {
 
     //로그 등록
     logAddAction : function(){
-      let logAddAction =
-      $.ajax({
-        url:context.hostUrl+'/projectLogAdd',
-        async:false,
-        type:'post',
-        data:{proId:$('#logAddProId').val(),logWriter:$('#logAddWriter').val(),logDetail:$('#logAddDetail').val()},
-        dataType : "json",
-        success : function(data){ },
-        error : function(err){ console.log(err); }
-      });  
+      if($('#logAddMemberKey').val() == context.memberKey){
+        let logAddAction =
+        $.ajax({
+          url:context.hostUrl+'/projectLogAdd',
+          async:false,
+          type:'post',
+          data:{proId:$('#logAddProId').val(),logWriter:$('#logAddWriter').val(),logDetail:$('#logAddDetail').val()},
+          dataType : "json",
+          success : function(data){ },
+          error : function(err){ console.log(err); }
+        });  
 
-      this.$router.push('/logList');
+        this.$router.push('/logList');
+        Materialize.toast('로그가 등록되었습니다..!', 4000);
+      }else {
+        Materialize.toast('멤버키 불일치.!', 4000);
+      }
+
     }
     ,
   } //methods end  

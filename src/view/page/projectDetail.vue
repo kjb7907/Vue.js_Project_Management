@@ -74,6 +74,10 @@
                         <input id="logAddWriter" type="text" data-length="10" style="width:40%">
                         <label for="icon_prefix">작성자</label>
                   
+                        <!-- log add member key -->
+                        <input id="logAddMemberKey" type="password" data-length="10" style="width:40%" placeholder="MEMBERKEY">
+           
+
                         <!-- 본문 -->
                         <div class="row">
                           <div class="input-field col s12">
@@ -134,8 +138,10 @@
                             <div class="row">
 
                               <!-- 작성자 -->
-                              <div class="col s5">                        
-                                <input :id="'logModifyLogWriter'+log.LOG_ID" type="text" style="font-size:10pt;"v-bind:value="log.LOG_WRITER"/>                     
+                              <div class="col s12">                        
+                                <input :id="'logModifyLogWriter'+log.LOG_ID" type="text" style="font-size:10pt;width:40%"v-bind:value="log.LOG_WRITER"/>    
+                                <!-- log modify member key -->
+                                <input :id="'logModifyMemberKey'+log.LOG_ID" type="password" data-length="10" style="width:40%" placeholder="MEMBERKEY">                                                 
                               </div>
                               <!-- 본문 -->
                               <div class="input-field col s12">
@@ -188,7 +194,10 @@
                   
               <!-- 체크리스트 등록 폼 열기-->
               <div v-else>
-                  <div><input v-on:keyup.enter="checkAddAction" type="text" id="ckDetail" name="ckDetail"></div>
+                  <!-- log modify member key -->
+                  <input id="ckAddMemberKey" type="password" data-length="10" placeholder="MEMBERKEY"> 
+                  <div><input v-on:keyup.enter="checkAddAction" type="text" id="ckDetail" placeholder="체크리스트 항목" ></div>
+
                   <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">닫기</button>
                   <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">등록</button>                
               </div>
@@ -255,23 +264,29 @@ export default {
             //로그 등록
             ,logAddAction : function(){
 
-              let logAddAction =
-              $.ajax({
-                url:context.hostUrl+'/projectLogAdd',
-                async:false,
-                type:'post',
-                data:{proId:$('#logAddProId').val(),logWriter:$('#logAddWriter').val(),logDetail:$('#logAddDetail').val()},
-                dataType : "json",
-                success : function(data){ },
-                error : function(err){ console.log(err); }
-              });  
+              if($('#logAddMemberKey').val() == context.memberKey){
+                let logAddAction =
+                $.ajax({
+                  url:context.hostUrl+'/projectLogAdd',
+                  async:false,
+                  type:'post',
+                  data:{proId:$('#logAddProId').val(),logWriter:$('#logAddWriter').val(),logDetail:$('#logAddDetail').val()},
+                  dataType : "json",
+                  success : function(data){ },
+                  error : function(err){ console.log(err); }
+                });  
 
 
-              let log = logAddAction.responseJSON;
+                let log = logAddAction.responseJSON;
 
-              this.formAdd=true;
-              this.logData.unshift(log) ;
-              Materialize.toast('로그가 등록되었습니다.!', 4000);
+                this.formAdd=true;
+                this.logData.unshift(log) ;
+                Materialize.toast('로그가 등록되었습니다.!', 4000);
+              } else {
+                Materialize.toast('멤버키 불일치.!', 4000);
+              }
+
+
 
             }
 
@@ -297,36 +312,47 @@ export default {
 
             //로그 수정  
             ,logModifyAction : function(logId,index){
-              $.ajax({
-                url:context.hostUrl+'/projectLogModify',
-                async:false,
-                type:'post',
-                data:{ logId : logId
-                      ,logWriter : $('#logModifyLogWriter'+logId).val()
-                      ,logDetail : $('#logModifyDetail'+logId).val()},
-                dataType : "json",
-                success : function(data){ },
-                error : function(err){ console.log(err); }
-              });    
+
               
-              let log = { LOG_ID : logId
-                      ,LOG_WRITER : $('#logModifyLogWriter'+logId).val()
-                      ,LOG_DETAIL : $('#logModifyDetail'+logId).val()}
+              if($('#logModifyMemberKey'+logId).val() == context.memberKey){
+                $.ajax({
+                  url:context.hostUrl+'/projectLogModify',
+                  async:false,
+                  type:'post',
+                  data:{ logId : logId
+                        ,logWriter : $('#logModifyLogWriter'+logId).val()
+                        ,logDetail : $('#logModifyDetail'+logId).val()},
+                  dataType : "json",
+                  success : function(data){ },
+                  error : function(err){ console.log(err); }
+                });    
+                
+                let log = { LOG_ID : logId
+                        ,LOG_WRITER : $('#logModifyLogWriter'+logId).val()
+                        ,LOG_DETAIL : $('#logModifyDetail'+logId).val()}
 
-              this.logData.splice(index,1,log);  
+                this.logData.splice(index,1,log);  
 
-              $("#memoKey"+logId).find(".view").each(function(){
-                $(this).show();
-              });
-              $("#memoKey"+logId).find(".edit").each(function(){
-                $(this).hide();
-              });                 
+                $("#memoKey"+logId).find(".view").each(function(){
+                  $(this).show();
+                });
+                $("#memoKey"+logId).find(".edit").each(function(){
+                  $(this).hide();
+                });   
+                Materialize.toast('로그가 수정 되었습니다.!', 4000);
+              } else {
+                Materialize.toast('멤버키 불일치.!', 4000);
+              }
+
+              
          
             }
 
             //로그 삭제버튼 클릭 삭제확인창 열기
             ,logDelForm :function(logId,index){
-              if(confirm('삭제하시겠습니까?')==true){
+
+              var logDeleteMemberKey = prompt("멤버키 입력");
+              if(logDeleteMemberKey == context.memberKey){
                 $.ajax({
                   url:context.hostUrl+'/projectLogDelete',
                   async:false,
@@ -336,8 +362,13 @@ export default {
                   success : function(data){ },
                   error : function(err){ console.log(err); }
                 });      
-                this.logData.splice(index,1);               
-              }         
+                this.logData.splice(index,1);   
+                Materialize.toast('로그가 삭제되었습니다..!', 4000);
+              }else {
+                Materialize.toast('멤버키 불일치.!', 4000);
+              }
+
+     
             }
 
             //로그 페이징
@@ -383,44 +414,54 @@ export default {
             //체크리스트 등록
             ,checkAddAction : function(){
 
-                let proId = this.projectId; //프로젝트id
+                if($('#ckAddMemberKey').val() == context.memberKey){
+                  let proId = this.projectId; //프로젝트id
 
-                let checkAddRequest = 
-                  $.ajax({
-                    url:context.hostUrl+'/projectCheckListAdd',
-                    async:false,
-                    type:'post',
-                    data:{"proId":proId,"ckDetail":$('#ckDetail').val()},
-                    dataType : "json",
-                    success : function(data){ },
-                    error : function(err){ console.log(err); }
-                  });    
+                  let checkAddRequest = 
+                    $.ajax({
+                      url:context.hostUrl+'/projectCheckListAdd',
+                      async:false,
+                      type:'post',
+                      data:{"proId":proId,"ckDetail":$('#ckDetail').val()},
+                      dataType : "json",
+                      success : function(data){ },
+                      error : function(err){ console.log(err); }
+                    });    
 
-                  $('#ckDetail').val('');
-                  this.checkListData = checkAddRequest.responseJSON.proCheckList;
-                  this.projectData.PRO_PROGRESS = checkAddRequest.responseJSON.proProgress;  
+                    $('#ckDetail').val('');
+                    this.checkListData = checkAddRequest.responseJSON.proCheckList;
+                    this.projectData.PRO_PROGRESS = checkAddRequest.responseJSON.proProgress;  
+                }else {
+                  Materialize.toast('멤버키 불일치.!', 4000);
+                }              
  
-
             }
 
             //체크리스트 삭제
             ,checkDeleteAction : function(ckId){
 
-                let proId = this.projectId; //프로젝트id
+                var ckDeleteMemberKey = prompt("멤버키 입력");
+                if(ckDeleteMemberKey == context.memberKey){
+                  let proId = this.projectId; //프로젝트id
 
-                let checkAddRequest = 
-                  $.ajax({
-                    url:context.hostUrl+'/projectCheckListDelete',
-                    async:false,
-                    type:'post',
-                    data:{"proId":proId,"ckId":ckId},
-                    dataType : "json",
-                    success : function(data){ },
-                    error : function(err){ console.log(err); }
-                  });    
+                  let checkAddRequest = 
+                    $.ajax({
+                      url:context.hostUrl+'/projectCheckListDelete',
+                      async:false,
+                      type:'post',
+                      data:{"proId":proId,"ckId":ckId},
+                      dataType : "json",
+                      success : function(data){ },
+                      error : function(err){ console.log(err); }
+                    });    
 
-                  this.checkListData = checkAddRequest.responseJSON.proCheckList;
-                  this.projectData.PRO_PROGRESS = checkAddRequest.responseJSON.proProgress;     
+                    this.checkListData = checkAddRequest.responseJSON.proCheckList;
+                    this.projectData.PRO_PROGRESS = checkAddRequest.responseJSON.proProgress;  
+                    Materialize.toast('체크리스트가 삭제되었습니다..!', 4000);
+                }else {
+                  Materialize.toast('멤버키 불일치.!', 4000);
+                }
+   
                            
             }
 

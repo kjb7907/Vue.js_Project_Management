@@ -54,15 +54,20 @@
               <input type="text" id="schColor" value="cal-normal">
             </div>        
 
-            <div class="col s12 l6">
+            <div class="col s12 l3">
               <div class="colorbox" style="background-color:#41B883;" colorValue="cal-normal"></div>
               <div class="colorbox" style="background-color:#ef5350;" colorValue="cal-red"></div>    
               <div class="colorbox" style="background-color:#00bcd4;" colorValue="cal-cyan"></div>           
-            </div>                                   
+            </div> 
+
+            <div class="col s12 l3">
+              <input id="schAddMemberKey" type="password" placeholder="MEMBERKEY">
+            </div>                                  
             
           </div>
         </div>
-        <div class="modal-footer">          
+        <div class="modal-footer">       
+                 
           <button @click="modalClose" class="modal-action modal-close waves-effect waves-green btn-flat">닫기</button>
           <button @click="scheduleAddAction" class="modal-action modal-close waves-effect waves-green btn-flat">등록</button>
         </div>
@@ -166,36 +171,43 @@ export default {
 
     //일정등록
     ,scheduleAddAction : function(){
-      let addSchedule =
-      $.ajax({
-        url:context.hostUrl+'/addSchedule',
-        async:false,
-        type:'post',
-        data:{ schDetail : $('#schDetail').val() 
-              ,schStartDate : $('#schStartDate').val()
-              ,schCloseDate : $('#schCloseDate').val()
-              ,schColor : $('#schColor').val()
-              },
-        dataType : "json",
-        success : function(data){ },
-        error : function(err){ console.log(err); }
-      });  
+      if($('#schAddMemberKey').val() == context.memberKey){
+        let addSchedule =
+        $.ajax({
+          url:context.hostUrl+'/addSchedule',
+          async:false,
+          type:'post',
+          data:{ schDetail : $('#schDetail').val() 
+                ,schStartDate : $('#schStartDate').val()
+                ,schCloseDate : $('#schCloseDate').val()
+                ,schColor : $('#schColor').val()
+                },
+          dataType : "json",
+          success : function(data){ },
+          error : function(err){ console.log(err); }
+        });  
 
-      console.log(addSchedule.responseJSON);
-      let sch = {
-        SCH_ID:addSchedule.responseJSON.schId
-        ,title : $('#schDetail').val() 
-        ,start : $('#schStartDate').val()
-        ,end : $('#schCloseDate').val()
-        ,cssClass : $('#schColor').val()
-      }   
-      
-      this.fcEvents.push(sch);  
+        console.log(addSchedule.responseJSON);
+        let sch = {
+          SCH_ID:addSchedule.responseJSON.schId
+          ,title : $('#schDetail').val() 
+          ,start : $('#schStartDate').val()
+          ,end : $('#schCloseDate').val()
+          ,cssClass : $('#schColor').val()
+        }   
+        
+        this.fcEvents.push(sch);  
 
-        title : $('#schDetail').val('');
-        start : $('#schStartDate').val('');
-        end : $('#schCloseDate').val('');
-        cssClass : $('#schColor').val('cal-normal');      
+          title : $('#schDetail').val('');
+          start : $('#schStartDate').val('');
+          end : $('#schCloseDate').val('');
+          cssClass : $('#schColor').val('cal-normal');   
+
+          Materialize.toast('일정이 등록되었습니다.!', 4000);   
+      } else {
+        Materialize.toast('멤버키 불일치..!', 4000);
+      }
+
 
     } 
 
@@ -214,18 +226,21 @@ export default {
           error : function(err){ console.log(err); }
         });
 
+        Materialize.toast('일정이 삭제되었습니다.', 4000);
+
         //day event 에서 제거
         this.dayEvents.splice(index,1);
+
         //fc event 에서 제거
         let arr = this.fcEvents   
-        console.log(arr);  
+        
         for(var i in arr){
           if(arr[i].SCH_ID==SCH_ID){
             arr.splice(i,1)
             return ;
           }
         }  
-
+          
       }
     }   
 
