@@ -165,7 +165,19 @@ export default {
 
 
   ,mounted : function(){    
-    this.ckList = this.checkListData;
+
+    var initCheckList = 
+          $.ajax({
+            url:context.hostUrl+'/projectCheckList',
+            async:false,
+            type:'post',
+            data:{"proId":this.projectId},
+            dataType : "json",
+            success : function(data){ },
+            error : function(err){ console.log(err); }
+          });  
+
+    this.ckList = initCheckList.responseJSON;
       
 
   } //mounted end

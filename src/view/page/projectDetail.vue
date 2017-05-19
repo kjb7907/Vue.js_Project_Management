@@ -21,7 +21,6 @@
 
           <div class="col s12 m12 l12">
             <ckList :projectData="projectData"
-                    :checkListData="checkListData"
                     v-on:checkAddActio="setProgress"
                     v-on:checkDeleteAction="setProgress"
                     v-on:checkAction="setProgress">
@@ -29,8 +28,7 @@
           </div>   
 
           <div class="col s12 l12">
-            <logList :projectData="projectData"
-                     :logData="logData">
+            <logList :projectData="projectData">
             </logList>                   
           </div>             
       
@@ -56,8 +54,6 @@ export default {
   data () {
     return {
         projectData : { }     
-        ,logData : [ ]
-        ,checkListData : [ ]
         ,projectId: this.$route.params.projectId
         ,logCurrentCount:1
         ,limit:10
@@ -82,7 +78,7 @@ export default {
             url:context.hostUrl+'/projectDetailData',
             async:false,
             type:'post',
-            data:{"proId":this.projectId,"logCurrentCount":this.logCurrentCount,limit:this.limit},
+            data:{"proId":this.projectId},
             dataType : "json",
             success : function(data){ },
             error : function(err){ console.log(err); }
@@ -90,12 +86,8 @@ export default {
 
 
       //가져온 상세정보 세팅
-      this.projectData=projectInfo.responseJSON.projectDetail;
-      this.logData=projectInfo.responseJSON.logList;
-      this.checkListData=projectInfo.responseJSON.checkList;
-      this.logCurrentCount = this.logCurrentCount*1+10;
-      this.limit = this.limit*1+10;
-     
+      this.projectData=projectInfo.responseJSON;
+
 
    } //mounted end
 

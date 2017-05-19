@@ -143,7 +143,7 @@ export default {
   },
 
   props : [
-    'projectData','logData'
+    'projectData'
   ],
 
   data () {
@@ -156,7 +156,8 @@ export default {
         //페이징 카운트
         logCurrentCount:1,
         //한페이지당 가져오는 로그 개수
-        limit:10
+        limit:10,
+        logData : [],
     }
   }
 
@@ -314,6 +315,19 @@ export default {
 
   // mounted == document ready 
   ,mounted : function(){    
+
+    var initLogList = 
+          $.ajax({
+            url:context.hostUrl+'/projectLogRead',
+            async:false,
+            type:'post',
+            data:{"proId":this.projectId,"logCurrentCount":this.logCurrentCount,limit:this.limit},
+            dataType : "json",
+            success : function(data){ },
+            error : function(err){ console.log(err); }
+          });   
+
+          this.logData = initLogList.responseJSON;
 
   } //mounted end
 
