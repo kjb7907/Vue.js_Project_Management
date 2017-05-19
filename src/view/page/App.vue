@@ -12,10 +12,12 @@
 export default {
   name: 'app',
   components: {
-    'topNaviMenu': () => import('../module/topNaviMenu'),
-    'floatingMenu': () => import('../module/floatingMenu')
+    'topNaviMenu': () => import('../components/menu_topNaviMenu'),
+    'floatingMenu': () => import('../components/menu_floatingMenu')
   },
-  show:true
+  mounted : function(){
+
+  }
 
 }
 

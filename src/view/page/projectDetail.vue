@@ -3,8 +3,8 @@
   <div class="hello">
     <div class="container">
 
-        <div style="height:10px;"></div>    
-
+        <div style="height:10px;"></div> 
+        
         <nav class="grey lighten-5">
           <div class="nav-wrapper">
             <a class="brand-logo center":style="'color:#'+projectData.PRO_COLOR+';'"><i class="material-icons large">assignment</i>{{projectData.PRO_NAME}}</a>
@@ -14,215 +14,26 @@
       <div class="card grey lighten-5 " style="padding:10px;">
         <div class="row">
 
-        <div class="col s12 m12 l12">
-          <div class="card"style="text-align:center">
-            <div class="row">
-
-              <div class="col s4">
-                <i class="large material-icons" :style="'color:#'+projectData.PRO_COLOR">receipt</i>
-                <div>시작일 : {{projectData.PRO_START_DATE}}</div>
-                <div>마감예정일 : {{projectData.PRO_CLOSE_DATE}} </div>
-              </div>
-          
-              <div class="col s4">
-                <i class="large material-icons" :style="'color:#'+projectData.PRO_COLOR">insert_chart</i>
-                <div>프로젝트 진행율 : {{projectData.PRO_PROGRESS}}%</div>
-                <div class="container">
-                  <div class="progress" style="height:20px">
-                      <div class="determinate" :style="'width:'+ projectData.PRO_PROGRESS+'%;background-color:#'+projectData.PRO_COLOR+';'"></div>
-                  </div>
-                </div>           
-              </div> 
-
-              <div class="col s4">
-                <i class="large material-icons" :style="'color:#'+projectData.PRO_COLOR">assignment_ind</i>
-                <div>담당자 연락처 : {{projectData.PRO_CONTACT}}</div>      
-              </div>               
-
-            </div>    
-          </div>
-        </div>
-        
-
-
-        <div class="col s12 m12 l12">
-        
-          <div class="card"style="text-align:center">
-            <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">list</i><span style="font-size:15pt;">체크리스트</span>
+          <div class="col s12 m12 l12">
+            <projectInfo :projectData="projectData">
+            </projectInfo>
           </div>
 
-          <div class="card" style="height:250px;overflow:auto">       
+          <div class="col s12 m12 l12">
+            <ckList :projectData="projectData"
+                    :checkListData="checkListData"
+                    v-on:checkAddActio="setProgress"
+                    v-on:checkDeleteAction="setProgress"
+                    v-on:checkAction="setProgress">
+            </ckList>       
+          </div>   
 
-            <div style="margin:10px;">
-
-              <!-- 체크리스트 추가 버튼 누르기 전-->
-              <div v-if="checkAdd" class="center-align">                
-                <!-- 체크리스트 등록 -->
-                <div>
-                  <a @click="checkAddForm()" style="cursor:pointer;"><i class="material-icons":style="'color:#'+projectData.PRO_COLOR+';'">add</i></a>
-                </div>              
-              </div>         
-                  
-              <!-- 체크리스트 등록 폼 열기-->
-              <div v-else>
-                  <!-- log modify member key -->
-                  <input id="ckAddMemberKey" type="password" data-length="10" placeholder="MEMBERKEY"> 
-                  <div><input v-on:keyup.enter="checkAddAction" type="text" id="ckDetail" placeholder="체크리스트 항목" ></div>
-
-                  <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">닫기</button>
-                  <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">등록</button>                
-              </div>
-          
-              <!-- 체크리스트 목록 -->
-              <template v-for="check in checkListData">
-
-                <p>
-                  <input @click="checkAction(check.CK_ID)" type="checkbox" class="filled-in" :id="'ck'+check.CK_ID" :checked="(check.CK_SUCCESS == 'true')" />                
-                  <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
-                </p>
-
-
-              </template>   
-
-            </div>
-          </div>
-
-
-        </div>   
-
-        <div class="col s12 l12">
-
-          <div id="logScroll" style="height:600px;overflow:auto">
-
-            <div id="innerScroll" style="margin:5px;">
-        
-              <div class="card"style="text-align:center">
-                <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">comment</i><span style="font-size:15pt;">로그</span>
-              </div>
-
-              <!-- 로그 등록 -->
-              <div class="card">
-
-                <!-- 로그 추가 버튼 -->
-                <div v-if="formAdd" class="center-align">
-                  <a @click="logAddForm()" style="cursor:Pointer;"><i class="material-icons medium":style="'color:#'+projectData.PRO_COLOR+';'">add</i></a>
-                </div>
-                <!-- 로그 추가버튼 클릭시 -->
-                <div v-else>
-                
-                    <div style="padding: 10px 20px 30px 20px;">
-
-                      <div class="input-field">
-
-                        <!-- 프로젝트 ID -->
-                        <input id="logAddProId"type="hidden" :value="projectData.PRO_ID">                          
-
-                        <!-- 작성자 -->
-                        <input id="logAddWriter" type="text" data-length="10" style="width:40%">
-                        <label for="icon_prefix">작성자</label>
-                  
-                        <!-- log add member key -->
-                        <input id="logAddMemberKey" type="password" data-length="10" style="width:40%" placeholder="MEMBERKEY">
-           
-
-                        <!-- 본문 -->
-                        <div class="row">
-                          <div class="input-field col s12">
-                            <textarea v-on:keyup.enter="logAddAction" id="logAddDetail" class="materialize-textarea" data-length="120"></textarea>
-                            <label for="textarea1">본문</label>
-                          </div>
-                        </div>                      
-                                      
-                      </div>
-
-
-                      <button @click="logAddForm()"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">취소</button>                
-                      <button @click="logAddAction()"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">확인</button> 
-
-                    </div>                  
-         
-                </div>              
-              </div>    
-
-              <!-- 로그 -->
-              
-              <div v-for="(log,index) in logData">
-                <div id="logMemo">
-                    <div class="card" style="width:100%;min-height:100px;">
-                                              
-                      <div class="row" :id="'memoKey'+log.LOG_ID" >
-
-                        <!-- 로그 view-->                            
-                        <div class="view log">
-
-                          <!-- 인덱스 번호 -->
-                          <input id="" type="hidden" :value="index">
-                          
-                          <!-- 작성자 -->
-                          <span style="color:#424242;margin-left:10px;"> {{log.LOG_WRITER}} </span>
-
-                          <!-- 작성일 -->
-                          <span style="float:right;color:#747474;">{{log.LOG_DATE}} &nbsp;</span>
-
-
-                          <!-- 구분선 -->
-                          <div class="divider" style="margin:10px;"></div>    
-
-                          <!-- 본문 -->                                                  
-                          <div class="col s12" style="word-break: break-all;">
-                            {{log.LOG_DETAIL}}
-                          </div> 
-
-                          <!-- 버튼 -->
-                          <button @click="logDelForm(log.LOG_ID,index)"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">삭제</button>    
-                          <button @click="logModifyForm(log.LOG_ID,index)"class="waves-effect waves-teal btn-flat" :style="'color:#'+projectData.PRO_COLOR+';font-size:9pt;float:right;'">수정</button>                                
-
-                        </div>
-
-                        <!-- 로그 수정 폼 -->
-                        <div class="edit log">
-
-                            <div class="row">
-
-                              <!-- 작성자 -->
-                              <div class="col s12">                        
-                                <input :id="'logModifyLogWriter'+log.LOG_ID" type="text" style="font-size:10pt;width:40%"v-bind:value="log.LOG_WRITER"/>    
-                                <!-- log modify member key -->
-                                <input :id="'logModifyMemberKey'+log.LOG_ID" type="password" data-length="10" style="width:40%" placeholder="MEMBERKEY">                                                 
-                              </div>
-                              <!-- 본문 -->
-                              <div class="input-field col s12">
-                                <textarea  :id="'logModifyDetail'+log.LOG_ID" class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
-                              </div>     
-
-                            </div>      
-                            
-                            <button @click="logModifyCancel(log.LOG_ID)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">취소</button>   
-                            <button @click="logModifyAction(log.LOG_ID,index)"class="waves-effect waves-teal btn-flat" style="color:#41B883;font-size:9pt;float:right;">확인</button>      
-
-               
-                        </div>
-
-
-                      </div>
-
-                    </div>
-                </div>      
-              </div> <!-- v-for end --> 
-
-                <!-- 로그 더보기 -->
-                <div v-if="formAdd" class="center-align">
-                  <a @click="logNextPage()" style="cursor:Pointer;"><i class="material-icons medium":style="'color:#'+projectData.PRO_COLOR+';'">playlist_add</i></a>
-                </div>              
-
-            </div> <!-- innerScroll end -->
-     
-          </div> <!-- logScroll end -->
-          
-        </div>             
-
-        
-
+          <div class="col s12 l12">
+            <logList :projectData="projectData"
+                     :logData="logData">
+            </logList>                   
+          </div>             
+      
         </div>
       </div>
 
@@ -238,269 +49,31 @@ export default {
 
   name: 'projectDetail',
   components: {
-    
+    'projectInfo': () => import('../components/pd_projectInfo'),
+    'ckList': () => import('../components/pd_ckList'),
+    'logList': () => import('../components/pd_logList')      
   },
   data () {
     return {
         projectData : { }     
         ,logData : [ ]
         ,checkListData : [ ]
-        ,formAdd: true
-        ,checkAdd: true
         ,projectId: this.$route.params.projectId
         ,logCurrentCount:1
         ,limit:10
     }
   }
   ,methods : {
-
-            //로그 등록 폼 열기 닫기
-            logAddForm : function(){
-              if(this.formAdd==true){
-                this.formAdd=false;
-              }else{
-                this.formAdd=true;
-              }  
-            }
-
-            //로그 등록
-            ,logAddAction : function(){
-
-              if($('#logAddMemberKey').val() == context.memberKey){
-                let logAddAction =
-                $.ajax({
-                  url:context.hostUrl+'/projectLogAdd',
-                  async:false,
-                  type:'post',
-                  data:{proId:$('#logAddProId').val(),logWriter:$('#logAddWriter').val(),logDetail:$('#logAddDetail').val()},
-                  dataType : "json",
-                  success : function(data){ },
-                  error : function(err){ console.log(err); }
-                });  
-
-
-                let log = logAddAction.responseJSON;
-
-                this.formAdd=true;
-                this.logData.unshift(log) ;
-                Materialize.toast('로그가 등록되었습니다.!', 4000);
-              } else {
-                Materialize.toast('멤버키 불일치.!', 4000);
+              setProgress : function(progress){          
+                this.projectData.PRO_PROGRESS = progress;
               }
-
-
-
-            }
-
-            //로그 수정버튼 클릭 수정폼 열기 
-            ,logModifyForm :function(logId){
-              $("#memoKey"+logId).find(".view").each(function(){
-                $(this).hide();
-              });
-              $("#memoKey"+logId).find(".edit").each(function(){
-                $(this).show();
-              });              
-            }
-
-            //로그 수정 폼 취소
-            ,logModifyCancel :function(logId){
-              $("#memoKey"+logId).find(".view").each(function(){
-                $(this).show();
-              });
-              $("#memoKey"+logId).find(".edit").each(function(){
-                $(this).hide();
-              });   
-            }
-
-            //로그 수정  
-            ,logModifyAction : function(logId,index){
-
-              
-              if($('#logModifyMemberKey'+logId).val() == context.memberKey){
-                $.ajax({
-                  url:context.hostUrl+'/projectLogModify',
-                  async:false,
-                  type:'post',
-                  data:{ logId : logId
-                        ,logWriter : $('#logModifyLogWriter'+logId).val()
-                        ,logDetail : $('#logModifyDetail'+logId).val()},
-                  dataType : "json",
-                  success : function(data){ },
-                  error : function(err){ console.log(err); }
-                });    
-                
-                let log = { LOG_ID : logId
-                        ,LOG_WRITER : $('#logModifyLogWriter'+logId).val()
-                        ,LOG_DETAIL : $('#logModifyDetail'+logId).val()}
-
-                this.logData.splice(index,1,log);  
-
-                $("#memoKey"+logId).find(".view").each(function(){
-                  $(this).show();
-                });
-                $("#memoKey"+logId).find(".edit").each(function(){
-                  $(this).hide();
-                });   
-                Materialize.toast('로그가 수정 되었습니다.!', 4000);
-              } else {
-                Materialize.toast('멤버키 불일치.!', 4000);
-              }
-
-              
-         
-            }
-
-            //로그 삭제버튼 클릭 삭제확인창 열기
-            ,logDelForm :function(logId,index){
-
-              var logDeleteMemberKey = prompt("멤버키 입력");
-              if(logDeleteMemberKey == context.memberKey){
-                $.ajax({
-                  url:context.hostUrl+'/projectLogDelete',
-                  async:false,
-                  type:'post',
-                  data:{logId:logId},
-                  dataType : "json",
-                  success : function(data){ },
-                  error : function(err){ console.log(err); }
-                });      
-                this.logData.splice(index,1);   
-                Materialize.toast('로그가 삭제되었습니다..!', 4000);
-              }else {
-                Materialize.toast('멤버키 불일치.!', 4000);
-              }
-
      
-            }
-
-            //로그 페이징
-            ,logNextPage : function(){
-
-
-                var proId = this.projectId; //프로젝트id
-                var logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
-                var limit = this.limit
-
-
-                let logList = 
-                $.ajax({
-                  url:context.hostUrl+'/projectLogRead',
-                  async:false,
-                  type:'post',
-                  data:{"proId":proId,"logCurrentCount":logCurrentCount,limit:limit},
-                  dataType : "json",
-                  success : function(data){ },
-                  error : function(err){ console.log(err); }
-                });   
-
-                this.logCurrentCount = this.logCurrentCount*1+10;
-                this.limit = this.limit*1+10;
-                let log=logList.responseJSON;
-                for(var i in log){
-                  this.logData.push(log[i]);
-                }
-
-                console.log(logList.responseJSON);                  
-                                   
-            }
-
-            //체크리스트 등록 폼 열기 닫기
-            ,checkAddForm : function(){
-              if(this.checkAdd==true){
-                this.checkAdd=false;
-              }else{
-                this.checkAdd=true;
-              }
-            } 
-
-            //체크리스트 등록
-            ,checkAddAction : function(){
-
-                if($('#ckAddMemberKey').val() == context.memberKey){
-                  let proId = this.projectId; //프로젝트id
-
-                  let checkAddRequest = 
-                    $.ajax({
-                      url:context.hostUrl+'/projectCheckListAdd',
-                      async:false,
-                      type:'post',
-                      data:{"proId":proId,"ckDetail":$('#ckDetail').val()},
-                      dataType : "json",
-                      success : function(data){ },
-                      error : function(err){ console.log(err); }
-                    });    
-
-                    $('#ckDetail').val('');
-                    this.checkListData = checkAddRequest.responseJSON.proCheckList;
-                    this.projectData.PRO_PROGRESS = checkAddRequest.responseJSON.proProgress;  
-                }else {
-                  Materialize.toast('멤버키 불일치.!', 4000);
-                }              
- 
-            }
-
-            //체크리스트 삭제
-            ,checkDeleteAction : function(ckId){
-
-                var ckDeleteMemberKey = prompt("멤버키 입력");
-                if(ckDeleteMemberKey == context.memberKey){
-                  let proId = this.projectId; //프로젝트id
-
-                  let checkAddRequest = 
-                    $.ajax({
-                      url:context.hostUrl+'/projectCheckListDelete',
-                      async:false,
-                      type:'post',
-                      data:{"proId":proId,"ckId":ckId},
-                      dataType : "json",
-                      success : function(data){ },
-                      error : function(err){ console.log(err); }
-                    });    
-
-                    this.checkListData = checkAddRequest.responseJSON.proCheckList;
-                    this.projectData.PRO_PROGRESS = checkAddRequest.responseJSON.proProgress;  
-                    Materialize.toast('체크리스트가 삭제되었습니다..!', 4000);
-                }else {
-                  Materialize.toast('멤버키 불일치.!', 4000);
-                }
-   
-                           
-            }
-
-            //체크리스트 체크/해제
-            ,checkAction : function(ckId){
-
-                let ckValue=$('#ck'+ckId).prop('checked');
-                let proId = this.projectId; //프로젝트id
-
-                let checkRequest = 
-                  $.ajax({
-                    url:context.hostUrl+'/projectCheckListCheck',
-                    async:false,
-                    type:'post',
-                    data:{"proId":proId,"ckValue":ckValue,"ckId":ckId},
-                    dataType : "json",
-                    success : function(data){ },
-                    error : function(err){ console.log(err); }
-                  });    
-
-                  this.checkListData = checkRequest.responseJSON.proCheckList;
-                  this.projectData.PRO_PROGRESS = checkRequest.responseJSON.proProgress;      
-
-            }             
-
           } //methods end  
 
   // mounted == document ready 
   ,mounted : function(){    
 
-    /* -------------------------------------------
-    * 매개변수 얻기
-    */
-    var proId = this.projectId; //프로젝트id
-    var logCurrentCount = this.logCurrentCount; //로그 카운트(페이징처리용)
-    var limit = this.limit
-    
+
     /* ----------------------------------------------
     * 프로젝트ID로 프로젝트 상세정보, 로그, 체크리스트 가져오기
     */ 
@@ -509,7 +82,7 @@ export default {
             url:context.hostUrl+'/projectDetailData',
             async:false,
             type:'post',
-            data:{"proId":proId,"logCurrentCount":logCurrentCount,limit:limit},
+            data:{"proId":this.projectId,"logCurrentCount":this.logCurrentCount,limit:this.limit},
             dataType : "json",
             success : function(data){ },
             error : function(err){ console.log(err); }
@@ -536,10 +109,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.edit {
-  display:none;
-}
-.log{
-  margin:20px;
-}
+
 </style>
