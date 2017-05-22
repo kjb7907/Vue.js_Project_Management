@@ -33,7 +33,8 @@
 
         <p>
             <input @click="checkAction(check.CK_ID)" type="checkbox" class="filled-in" :id="'ck'+check.CK_ID" :checked="(check.CK_SUCCESS == 'true')" />                
-            <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
+            <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> 
+            <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
         </p>
 
 
@@ -56,8 +57,7 @@ export default {
   props :[
             //프로젝트 정보
             'projectData',
-            //초기 체크리스트
-            'checkListData'
+
         ],
 
   components: {
@@ -192,5 +192,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    label {
+        display:inline;
+        font-size: 9pt;
+        color: #353535;
+    }
 </style>
