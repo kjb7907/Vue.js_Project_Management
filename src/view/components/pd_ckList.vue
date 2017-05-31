@@ -6,7 +6,7 @@
     <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">list</i><span style="font-size:15pt;">체크리스트</span>
     </div>
 
-    <div class="card" style="height:250px;overflow:auto">       
+    <div class="card" style="height:600px;overflow:auto">       
 
     <div style="margin:10px;">
 
@@ -194,7 +194,7 @@ export default {
 <style scoped>
     label {
         display:inline;
-        font-size: 9pt;
+        font-size: 12pt;
         color: #353535;
     }
 </style>

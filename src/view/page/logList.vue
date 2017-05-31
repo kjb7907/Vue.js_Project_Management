@@ -35,7 +35,7 @@
 
                 <template v-for="(log,index) in logData">
                   <div class="card grey lighten-5" :style="'border-left: solid;border-left-color: #'+log.PRO_COLOR+';'">
-                    <div style="padding:2px;font-size:9pt">
+                    <div style="padding:2px;font-size:11pt">
                       <div class="row" :id="'logId'+log.LOG_ID">
                         <!-- 로그 view -->
                         <div class="view">
@@ -74,7 +74,7 @@
                           </div>
 
                           <div class="col s11">
-                            <textarea :id="'logModifyDetail'+log.LOG_ID"class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
+                            <textarea :id="'logModifyDetail'+log.LOG_ID"class="materialize-textarea" data-length="120" style="font-size:12pt;">{{log.LOG_DETAIL}}</textarea>
                           </div>  
 
                           <div class="col s12" style="text-align:right">
@@ -98,6 +98,7 @@
 
             <div class="row">
 
+              <!--
               <div class="col s6 m6 l12">
                 <div class="card grey lighten-5 center-align moaTitle">
                   <span style="font-size:13pt;">날짜별 모아보기</span>
@@ -110,14 +111,19 @@
                   </div>              
                 </div>
               </div>
+              -->
 
-              <div class="col s6 m6 l12">
-                <div class="card grey lighten-5 center-align moaTitle" style="height:400px;overflow:auto;">
+              <div class="col s12 m12 l12">
+                <div class="card grey lighten-5 center-align moaTitle" style="height:700px;overflow:auto;">
                   <span style="font-size:13pt;">프로젝트별 모아보기</span>
                   <div class="collection" style="font-size:11pt;">
+
+                    <a @click="totalLog()" class="collection-item projectSelector" style="cursor:pointer">전체로그</a>
+
                     <template v-for="project in projectData">
                       <a @click="projectLogSearch(project.PRO_ID)" :id="'proItem'+project.PRO_ID" class="collection-item projectSelector" style="cursor:pointer">{{project.PRO_NAME}}</a>                    
                     </template>
+
                   </div>                       
                 </div>               
               </div>    
@@ -268,6 +274,30 @@ export default {
       this.logData=getlogDataforProId.responseJSON;
 
     }
+
+    //전체 프로젝트 로그 가져오기
+    ,totalLog : function(){
+
+      this.logCurrentCount=1;
+      this.limit=10;
+      this.logType='total';
+
+      //init logData
+      let initLogData = 
+        $.ajax({
+          url:context.hostUrl+'/searchAllLog',
+          async:false,
+          type:'post',
+          data:{'logType':this.logType,'logCurrentCount':this.logCurrentCount,'limit':this.limit},
+          dataType : "json",
+          success : function(data){ },
+          error : function(err){ console.log(err); }
+        }); 
+
+      this.logData=initLogData.responseJSON;
+      this.logCurrentCount = this.logCurrentCount+10
+      this.limit = this.limit+10;
+    }    
 
     //날짜별 모아보기
     ,dateLogSearch : function(){

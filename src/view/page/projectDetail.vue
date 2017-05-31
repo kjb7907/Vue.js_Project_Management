@@ -5,32 +5,55 @@
 
         <div style="height:10px;"></div> 
         
-        <nav class="grey lighten-5">
+        <nav class="nav-extended" :style="'background-color:#'+projectData.PRO_COLOR+';'">
           <div class="nav-wrapper">
-            <a class="brand-logo center":style="'color:#'+projectData.PRO_COLOR+';'"><i class="material-icons large">assignment</i>{{projectData.PRO_NAME}}</a>
+            <a class="brand-logo center"><i class="material-icons large">assignment</i>{{projectData.PRO_NAME}}</a>
           </div>
+
+          <div class="nav-content">
+            <ul class="tabs tabs-transparent"id="tabs-swipe-demo">
+              <li class="tab"><a class="active" href="#tab1">프로젝트 정보</a></li>
+              <li class="tab"><a href="#tab2">체크리스트</a></li>
+              <li class="tab"><a href="#tab3">로그</a></li>
+            </ul>
+          </div>    
+
         </nav>  
 
       <div class="card grey lighten-5 " style="padding:10px;">
-        <div class="row">
 
+        <!-- 탭 1 프로젝트 정보-->
+        <div id="tab1" class="col s12">
           <div class="col s12 m12 l12">
             <projectInfo :projectData="projectData">
             </projectInfo>
-          </div>
+          </div>        
+        </div>
 
+        <!-- 탭 2 체크리스트-->
+        <div id="tab2" class="col s12">
           <div class="col s12 m12 l12">
             <ckList :projectData="projectData"
                     v-on:checkAddActio="setProgress"
                     v-on:checkDeleteAction="setProgress"
                     v-on:checkAction="setProgress">
             </ckList>       
-          </div>   
+          </div>           
+        </div>
 
+        <!-- 탭 3 로그-->
+        <div id="tab3" class="col s12">
           <div class="col s12 l12">
             <logList :projectData="projectData">
             </logList>                   
-          </div>             
+          </div>                     
+        </div>
+
+
+        <div class="row">
+
+
+        
       
         </div>
       </div>
@@ -88,6 +111,7 @@ export default {
       //가져온 상세정보 세팅
       this.projectData=projectInfo.responseJSON;
 
+      $('ul.tabs').tabs();
 
    } //mounted end
 

@@ -1,14 +1,15 @@
 
 <template>
 <div>
-          <div id="logScroll" style="height:600px;overflow:auto">
+
+          <div class="card"style="text-align:center">
+            <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">comment</i><span style="font-size:15pt;">로그</span>
+          </div>
+          
+          <div id="logScroll" style="height:700px;overflow:auto">
 
             <div id="innerScroll" style="margin:5px;">
         
-              <div class="card"style="text-align:center">
-                <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">comment</i><span style="font-size:15pt;">로그</span>
-              </div>
-
               <!-- 로그 등록 -->
               <div class="card">
 
@@ -68,17 +69,17 @@
                           <input id="" type="hidden" :value="index">
                           
                           <!-- 작성자 -->
-                          <span style="color:#424242;margin-left:10px;"> {{log.LOG_WRITER}} </span>
+                          <span style="color:#424242;margin-left:10px;font-size:12pt;">{{log.LOG_WRITER}} </span>
 
                           <!-- 작성일 -->
-                          <span style="float:right;color:#747474;">{{log.LOG_DATE}} &nbsp;</span>
+                          <span style="float:right;color:#747474;font-size:12pt;">{{log.LOG_DATE}} &nbsp;</span>
 
 
                           <!-- 구분선 -->
                           <div class="divider" style="margin:10px;"></div>    
 
                           <!-- 본문 -->                                                  
-                          <div class="col s12" style="word-break: break-all;">
+                          <div class="col s12" style="word-break: break-all; font-size:12pt;">
                             {{log.LOG_DETAIL}}
                           </div> 
 
@@ -95,13 +96,13 @@
 
                               <!-- 작성자 -->
                               <div class="col s12">                        
-                                <input :id="'logModifyLogWriter'+log.LOG_ID" type="text" style="font-size:10pt;width:40%"v-bind:value="log.LOG_WRITER"/>    
+                                <input :id="'logModifyLogWriter'+log.LOG_ID" type="text" style="font-size:12pt;width:40%"v-bind:value="log.LOG_WRITER"/>    
                                 <!-- log modify member key -->
                                 <input :id="'logModifyMemberKey'+log.LOG_ID" type="password" data-length="10" style="width:40%" placeholder="MEMBERKEY">                                                 
                               </div>
                               <!-- 본문 -->
                               <div class="input-field col s12">
-                                <textarea  :id="'logModifyDetail'+log.LOG_ID" class="materialize-textarea" data-length="120" style="font-size:10pt;">{{log.LOG_DETAIL}}</textarea>
+                                <textarea  :id="'logModifyDetail'+log.LOG_ID" class="materialize-textarea" data-length="120" style="font-size:12pt;">{{log.LOG_DETAIL}}</textarea>
                               </div>     
 
                             </div>      
@@ -326,7 +327,8 @@ export default {
             success : function(data){ },
             error : function(err){ console.log(err); }
           });   
-
+          this.logCurrentCount = this.logCurrentCount*1+10;
+          this.limit = this.limit*1+10;
           this.logData = initLogList.responseJSON;
 
   } //mounted end

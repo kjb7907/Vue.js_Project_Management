@@ -29,7 +29,7 @@
     <ul id="nav-mobile1" class="side-nav">
       <li><router-link to="/projectList">프로젝트 목록</router-link></li>     
       <li><router-link to="/logList">로그</router-link></li>
-      <li><router-link to="/schedule">일정</router-link></li>
+      <li><router-link to="/schedule">일정</router-link></li> 
     </ul>            
 
 
@@ -42,7 +42,11 @@
   $(document).ready(function(){
     //사이드네비 슬라이더
     $(".sideBtn").sideNav();
-    $(".sideBtn").sideNav();
+
+    $('li').click(function(){ 
+      $(".sideBtn").sideNav('hide');  
+    });
+    
   });
 
 export default {

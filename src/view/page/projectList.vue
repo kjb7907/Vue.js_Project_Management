@@ -13,19 +13,7 @@
 
       <div class="card grey lighten-5 " style="padding:10px;">
         <div class="row">
-
-          <div class="col s12 m6 l3">
-            <div class="card"style="height:200px;">
-            
-              <div>
-                <div class="center-align">
-                  <router-link to="/projectAdd"><i class="material-icons large"style="margin-top:50px;color:#41B883;cursor:Pointer;">add</i></router-link>
-                </div>
-              </div>    
-                          
-            </div>
-          </div>               
-
+    
           <template v-for="project in projectListData">
 
             <router-link :to="'/projectDetail/'+project.PRO_ID" style="color:#4C4C4C">
@@ -74,6 +62,18 @@
             </router-link>                
 
           </template>
+          
+          <div class="col s12 m6 l3">
+            <div class="card"style="height:200px;">
+            
+              <div>
+                <div class="center-align">
+                  <router-link to="/projectAdd"><i class="material-icons large"style="margin-top:50px;color:#41B883;cursor:Pointer;">add</i></router-link>
+                </div>
+              </div>    
+                          
+            </div>
+          </div>                     
 
         </div>
       </div>
