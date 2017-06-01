@@ -5,13 +5,14 @@
       <nav style="background-color:#35495E ;">
       
         <div class="nav-wrapper container">
-          <router-link to="/"><a href="#" class="brand-logo"><img src="../../assets/logo.png" style="margin-top:5px;"></a></router-link>
+          <router-link to="/"><a href="#" class="brand-logo"><img src="../../assets/logo.png" style="margin-top:5px;width:80px;"></a></router-link>
 
           <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-            <li><router-link to="/projectList"><i class="material-icons left">description</i></router-link></li>     
-            <li><router-link to="/logList"><i class="material-icons left">chat</i></router-link></li>
-            <li><router-link to="/schedule"><i class="material-icons left">today</i></router-link></li>
+            <li><router-link to="/projectList"><i class="material-icons left">description</i>프로젝트</router-link></li>     
+            <li><router-link to="/logList"><i class="material-icons left">chat</i>로그</router-link></li>
+            <li><router-link to="/to-do"><i class="material-icons left">perm_identity</i>TO-DO</router-link></li>
+            <li><router-link to="/schedule"><i class="material-icons left">today</i>일정</router-link></li>
                  
 
           </ul>
@@ -29,6 +30,7 @@
     <ul id="nav-mobile1" class="side-nav">
       <li><router-link to="/projectList">프로젝트 목록</router-link></li>     
       <li><router-link to="/logList">로그</router-link></li>
+      <li><router-link to="/to-do">TO-DO</router-link></li>
       <li><router-link to="/schedule">일정</router-link></li> 
     </ul>            
 

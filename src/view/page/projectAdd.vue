@@ -56,7 +56,14 @@
                     <div class="colorbox" style="background-color:#ec407a;" colorValue="ec407a"></div>            
                   </div>                                         
 
-                </div>                  
+                </div>       
+
+                <div class="row">
+                  <div class="col s12">
+                    상세정보
+                    <textarea id="textarea1" class="materialize-textarea" style="height:300px;"></textarea>
+                  </div>                    
+                </div>                             
 
                 <div class="row">
 

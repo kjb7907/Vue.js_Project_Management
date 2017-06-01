@@ -9,6 +9,7 @@ import projectAdd from '@/view/page/projectAdd'
 import projectModify from '@/view/page/projectModify'
 import schedule from '@/view/page/schedule'
 import fullCalendar from 'vue-fullcalendar'
+import toDo from '@/view/page/to-do'
 import testPage from '@/view/page/testPage'
 
 Vue.use(Router)
@@ -72,7 +73,14 @@ export default new Router({
       path: '/schedule',
       name: 'schedule',
       component: schedule
-    },           
+    },   
+
+    //to-do
+    {
+      path: '/to-do',
+      name: 'to-do',
+      component: toDo
+    },                    
 
     //테스트 페이지
     {

@@ -8,6 +8,19 @@
         <nav class="nav-extended" :style="'background-color:#'+projectData.PRO_COLOR+';'">
           <div class="nav-wrapper">
             <a class="brand-logo center"><i class="material-icons large">assignment</i>{{projectData.PRO_NAME}}</a>
+            
+          <ul class="right ">
+            <li>
+              <router-link :to="'/projectModify/'+projectData.PRO_ID"><a><i class="material-icons left">settings</i>수정</a></router-link>            
+            </li>
+          </ul>     
+
+          <ul class="left ">
+            <li>
+              <router-link to="/projectList"><a><i class="material-icons left">view_list</i>프로젝트 목록</a></router-link>            
+            </li>
+          </ul>   
+
           </div>
 
           <div class="nav-content">

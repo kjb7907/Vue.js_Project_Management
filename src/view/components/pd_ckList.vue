@@ -8,39 +8,54 @@
 
     <div class="card" style="height:600px;overflow:auto">       
 
-    <div style="margin:10px;">
+      <div style="margin:10px;">
 
-        <!-- 체크리스트 추가 버튼 누르기 전-->
-        <div v-if="checkAdd" class="center-align">                
-        <!-- 체크리스트 등록 -->
-        <div>
-            <a @click="checkAddForm()" style="cursor:pointer;"><i class="material-icons":style="'color:#'+projectData.PRO_COLOR+';'">add</i></a>
-        </div>              
-        </div>         
-            
-        <!-- 체크리스트 등록 폼 열기-->
-        <div v-else>
-            <!-- log modify member key -->
-            <input id="ckAddMemberKey" type="password" data-length="10" placeholder="MEMBERKEY"> 
-            <div><input v-on:keyup.enter="checkAddAction" type="text" id="ckDetail" placeholder="체크리스트 항목" ></div>
+          <!-- 체크리스트 추가 버튼 누르기 전-->
+          <div v-if="checkAdd" class="center-align">                
+          <!-- 체크리스트 등록 -->
+          <div>
+              <a @click="checkAddForm()" style="cursor:pointer;"><i class="material-icons":style="'color:#'+projectData.PRO_COLOR+';'">add</i></a>
+          </div>              
+          </div>         
+              
+          <!-- 체크리스트 등록 폼 열기-->
+          <div v-else>
+              <!-- log modify member key -->
+              <input id="ckAddMemberKey" type="password" data-length="10" placeholder="MEMBERKEY"> 
+              <div><input v-on:keyup.enter="checkAddAction" type="text" id="ckDetail" placeholder="체크리스트 항목" ></div>
 
-            <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">닫기</button>
-            <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">등록</button>                
-        </div>
-    
-        <!-- 체크리스트 목록 -->
-        <template v-for="check in ckList">
+              <button @click="checkAddForm()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">닫기</button>
+              <button @click="checkAddAction()" class="waves-effect waves-teal btn-flat":style="'color:#'+projectData.PRO_COLOR+';font-size:10pt;float:right;'">등록</button>                
+          </div>
+      
+          <div>
+            <h5 :style="'font-weight: lighter;color:#'+projectData.PRO_COLOR+';'"><blockquote>미완료 체크리스트</blockquote></h5>
+            <template v-for="check in ckList" v-if="check.CK_SUCCESS=='false'">
 
-        <p>
-            <input @click="checkAction(check.CK_ID)" type="checkbox" class="filled-in" :id="'ck'+check.CK_ID" :checked="(check.CK_SUCCESS == 'true')" />                
-            <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> 
-            <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
-        </p>
+            <p>
+                <input @click="checkAction(check.CK_ID)" type="checkbox" class="filled-in" :id="'ck'+check.CK_ID" :checked="(check.CK_SUCCESS == 'true')" />                
+                <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> 
+                <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
+            </p>
 
 
-        </template>   
+            </template>               
+          </div>
+          <div>
+            <h5 :style="'font-weight: lighter;color:#'+projectData.PRO_COLOR+';'"><blockquote>완료된 체크리스트</blockquote></h5>
+            <template v-for="check in ckList" v-if="check.CK_SUCCESS=='true'">
 
-    </div>
+            <p>
+                <input @click="checkAction(check.CK_ID)" type="checkbox" class="filled-in" :id="'ck'+check.CK_ID" :checked="(check.CK_SUCCESS == 'true')" />                
+                <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> 
+                <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
+            </p>
+
+
+            </template>               
+          </div>        
+
+      </div>
     </div>
 
 </div>
