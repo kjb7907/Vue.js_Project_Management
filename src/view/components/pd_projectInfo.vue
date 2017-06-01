@@ -28,10 +28,7 @@
                 <div class="col s12"style="text-align:left;margin:5%;">
                     <span style="font-size:14pt;font-weight: lighter;">상세정보</span>
 <pre>
-ㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇ
-ㅁㄴㅇㅁㄴㅇㅁㄴㅇ
-ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ
-ㅁㄴㅇㅁㄴㅇㅁㄴㅇ
+{{projectData.PRO_DETAIL}}
 </pre>
                 </div>            
 

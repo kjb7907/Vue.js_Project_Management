@@ -56,7 +56,14 @@
                     <div class="colorbox" style="background-color:#ec407a;" colorValue="ec407a"></div>            
                   </div>                                         
 
-                </div>                  
+                </div>    
+
+                <div class="row">
+                  <div class="col s12">
+                    상세정보
+                    <textarea id="proDetail" class="materialize-textarea" style="height:300px;">{{projectData.PRO_DETAIL}}</textarea>
+                  </div>                    
+                </div>                                   
 
                 <div class="row">
 
@@ -119,6 +126,7 @@ export default {
             ,proCloseDate:$('#proCloseDate').val()
             ,proColor:$('#proColor').val()
             ,proContact:$('#proContact').val()
+            ,proDetail:$('#proDetail').val()
             ,proId:proId
             },
           dataType : "json",

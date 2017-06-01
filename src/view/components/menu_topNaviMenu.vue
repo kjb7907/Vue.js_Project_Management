@@ -11,7 +11,7 @@
 
             <li><router-link to="/projectList"><i class="material-icons left">description</i>프로젝트</router-link></li>     
             <li><router-link to="/logList"><i class="material-icons left">chat</i>로그</router-link></li>
-            <li><router-link to="/to-do"><i class="material-icons left">perm_identity</i>TO-DO</router-link></li>
+            <li><router-link to="/to-do"><i class="material-icons left">person_pin</i>TO-DO</router-link></li>
             <li><router-link to="/schedule"><i class="material-icons left">today</i>일정</router-link></li>
                  
 

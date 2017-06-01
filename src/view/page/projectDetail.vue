@@ -17,7 +17,7 @@
 
           <ul class="left ">
             <li>
-              <router-link to="/projectList"><a><i class="material-icons left">view_list</i>프로젝트 목록</a></router-link>            
+              <router-link to="/projectList"><a><i class="material-icons left" style="transform: rotate(180deg)">trending_flat</i></a></router-link>            
             </li>
           </ul>   
 
@@ -26,7 +26,7 @@
           <div class="nav-content">
             <ul class="tabs tabs-transparent"id="tabs-swipe-demo">
               <li class="tab"><a class="active" href="#tab1">프로젝트 정보</a></li>
-              <li class="tab"><a href="#tab2">체크리스트</a></li>
+              <li class="tab"><a href="#tab2">작업 목록</a></li>
               <li class="tab"><a href="#tab3">로그</a></li>
             </ul>
           </div>    

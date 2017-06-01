@@ -44,6 +44,22 @@
             <ul class="collection with-header card">
               <router-link to="/schedule">
                 <div style="text-align:center;color:#41B883">
+                  <i class="large material-icons">person_pin</i>
+                  <div>TO-DO</div>      
+                </div>
+                <li class="collection-header"></li>
+              </router-link>
+
+            </ul>         
+
+        </div>               
+
+        <div class="col s6 l4">
+
+
+            <ul class="collection with-header card">
+              <router-link to="/schedule">
+                <div style="text-align:center;color:#41B883">
                   <i class="large material-icons">today</i>
                   <div>일정 관리</div>      
                 </div>

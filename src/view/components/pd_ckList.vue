@@ -3,7 +3,7 @@
 <div>
 
     <div class="card"style="text-align:center">
-    <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">list</i><span style="font-size:15pt;">체크리스트</span>
+    <i class="material-icons" :style="'color:#'+projectData.PRO_COLOR+';position:relative;top:5px;'">list</i><span style="font-size:15pt;">작업 목록</span>
     </div>
 
     <div class="card" style="height:600px;overflow:auto">       
@@ -29,12 +29,13 @@
           </div>
       
           <div>
-            <h5 :style="'font-weight: lighter;color:#'+projectData.PRO_COLOR+';'"><blockquote>미완료 체크리스트</blockquote></h5>
+            <h5 :style="'font-weight: lighter;color:#'+projectData.PRO_COLOR+';'"><blockquote>미완료 작업</blockquote></h5>
             <template v-for="check in ckList" v-if="check.CK_SUCCESS=='false'">
 
             <p>
                 <input @click="checkAction(check.CK_ID)" type="checkbox" class="filled-in" :id="'ck'+check.CK_ID" :checked="(check.CK_SUCCESS == 'true')" />                
                 <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> 
+                <input type="hidden" :id="'ckDetail'+check.CK_ID" :value="check.CK_DETAIL">
                 <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
             </p>
 
@@ -42,12 +43,13 @@
             </template>               
           </div>
           <div>
-            <h5 :style="'font-weight: lighter;color:#'+projectData.PRO_COLOR+';'"><blockquote>완료된 체크리스트</blockquote></h5>
+            <h5 :style="'font-weight: lighter;color:#'+projectData.PRO_COLOR+';'"><blockquote>완료된 작업</blockquote></h5>
             <template v-for="check in ckList" v-if="check.CK_SUCCESS=='true'">
 
             <p>
                 <input @click="checkAction(check.CK_ID)" type="checkbox" class="filled-in" :id="'ck'+check.CK_ID" :checked="(check.CK_SUCCESS == 'true')" />                
                 <label :for="'ck'+check.CK_ID">{{check.CK_DETAIL}}</label> 
+                <input type="hidden" :id="'ckDetail'+check.CK_ID" :value="check.CK_DETAIL">
                 <span @click="checkDeleteAction(check.CK_ID)" :style="'cursor:pointer;font-size:15px;color:#'+projectData.PRO_COLOR+';'">x</span>       
             </p>
 
@@ -158,14 +160,15 @@ export default {
             ,checkAction : function(ckId){
 
                 let ckValue=$('#ck'+ckId).prop('checked');
+                let ckDetail=$('#ckDetail'+ckId).val();
                 let proId = this.projectId; //프로젝트id
-
+                
                 let checkRequest = 
                   $.ajax({
                     url:context.hostUrl+'/projectCheckListCheck',
                     async:false,
                     type:'post',
-                    data:{"proId":proId,"ckValue":ckValue,"ckId":ckId},
+                    data:{"proId":proId,"ckValue":ckValue,"ckId":ckId,"ckDetail":ckDetail},
                     dataType : "json",
                     success : function(data){ },
                     error : function(err){ console.log(err); }

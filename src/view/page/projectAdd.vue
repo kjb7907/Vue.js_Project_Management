@@ -61,7 +61,7 @@
                 <div class="row">
                   <div class="col s12">
                     상세정보
-                    <textarea id="textarea1" class="materialize-textarea" style="height:300px;"></textarea>
+                    <textarea id="proDetail" class="materialize-textarea" style="height:300px;"></textarea>
                   </div>                    
                 </div>                             
 
@@ -118,6 +118,7 @@ export default {
             ,proCloseDate:$('#proCloseDate').val()
             ,proColor:$('#proColor').val()
             ,proContact:$('#proContact').val()
+            ,proDetail:$('#proDetail').val()
             },
           dataType : "json",
           success : function(data){ },
