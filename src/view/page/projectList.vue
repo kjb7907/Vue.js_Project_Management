@@ -95,9 +95,9 @@
                         <!-- 여백 -->
                         <div style="height:15px;"></div>
                                 
-                        <div style="font-size:13pt;color:#41B883;">
-                          <i class="material-icons" style="position:relative;top:5px;">play_arrow</i>
-                          진행중
+                        <div style="font-size:13pt;color:#ef5350;">
+                          <i class="material-icons" style="position:relative;top:5px;">pause</i>
+                          프로젝트 마감
                         </div>
 
                         <!-- 진행률 -->
