@@ -11,7 +11,7 @@
 
             <ul class="collection with-header card">
               <router-link to="/projectList">
-                <div style="text-align:center;color:#41B883">
+                <div style="text-align:center;color:#0277bd">
                   <i class="large material-icons">description</i>
                   <div>프로젝트 관리</div>      
                 </div>
@@ -27,7 +27,7 @@
 
             <ul class="collection with-header card">
               <router-link to="/logList">
-                <div style="text-align:center;color:#41B883">
+                <div style="text-align:center;color:#0277bd">
                   <i class="large material-icons">chat</i>
                   <div>전체 프로젝트 로그</div>      
                 </div>
@@ -42,8 +42,8 @@
 
 
             <ul class="collection with-header card">
-              <router-link to="/schedule">
-                <div style="text-align:center;color:#41B883">
+              <router-link to="/to-do">
+                <div style="text-align:center;color:#0277bd">
                   <i class="large material-icons">person_pin</i>
                   <div>TO-DO</div>      
                 </div>
@@ -59,7 +59,7 @@
 
             <ul class="collection with-header card">
               <router-link to="/schedule">
-                <div style="text-align:center;color:#41B883">
+                <div style="text-align:center;color:#0277bd">
                   <i class="large material-icons">today</i>
                   <div>일정 관리</div>      
                 </div>
@@ -75,7 +75,7 @@
 
             <ul class="collection with-header card">
               <router-link to="/">
-                <div style="text-align:center;color:#41B883">
+                <div style="text-align:center;color:#0277bd">
                   <i class="large material-icons">picture_in_picture</i>
                   <div>프로젝트 모니터링(준비중)</div>      
                 </div>
@@ -91,7 +91,7 @@
 
             <ul class="collection with-header card">
               <router-link to="/">
-                <div style="text-align:center;color:#41B883">
+                <div style="text-align:center;color:#0277bd">
                   <i class="large material-icons">dns</i>
                   <div>자료실(준비중)</div>      
                 </div>

@@ -11,7 +11,7 @@
             <ul class="right ">
               <li>
                 <router-link to="/projectAdd">
-                  <a @click="scheduleAddModalOpen" style="color:#41B883;">
+                  <a style="color:#41B883;">
                     <i class="material-icons left">add</i>프로젝트 등록
                   </a>
                 </router-link>
@@ -20,8 +20,11 @@
           </div>          
         </nav>  
 
+
+
       <div class="card grey lighten-5 " style="padding:10px;">
         <div class="row">
+    
 
           <!-- 진행중인 프로젝트 -->
           <div class="col s12">
@@ -30,20 +33,25 @@
 
               <router-link :to="'/projectDetail/'+project.PRO_ID" style="color:#4C4C4C">
                 <div class="col s12 m6 l3">
+                  
                   <div class="card"style="min-height:200px;">
+                  
+                      <div class="center-align" :style="'padding-top:25px;width:100%;min-height:60px;background-color:#'+project.PRO_COLOR+';'">
+                        <!-- 프로젝트명 -->
+                        <div style="font-weight: lighter;font-size:16pt;position:relative;z-index:1;top:-10px;color:#FFFFFF;">
+                          <i class="material-icons" style="position:relative;top:3px;">description</i>{{project.PRO_NAME}}
+                        </div> 
+                      </div>   
 
-                    
-                      <div class="center-align" style="font-size:10pt;padding-top:10px;" >                      
+                      <div class="center-align" style="font-size:10pt;" >                      
 
+                        <!-- 여백 -->
+                        <div style="height:15px;"></div>
+                                
                         <div style="font-size:13pt;color:#41B883;">
                           <i class="material-icons" style="position:relative;top:5px;">play_arrow</i>
                           진행중
                         </div>
-
-                        <div style="height:15px;"></div>
-                        
-                        <!-- 프로젝트명 -->
-                        <div style="font-weight: lighter;font-size:16pt;"><i class="material-icons" :style="'color:#'+project.PRO_COLOR">description</i>{{project.PRO_NAME}}</div>          
 
                         <!-- 진행률 -->
                         <div>프로젝트 진행율: {{project.PRO_PROGRESS}}%
@@ -72,21 +80,25 @@
 
               <router-link :to="'/projectDetail/'+project.PRO_ID" style="color:#4C4C4C">
                 <div class="col s12 m6 l3">
+                  
                   <div class="card"style="min-height:200px;">
-                  <div style="width:100%;height:100%;background-color:black;position:absolute;z-index:1;opacity:0.5;">&nbsp;</div>
-                    
-                      <div class="center-align" style="font-size:10pt;padding-top:10px;" >
-                        
-
-                        <div style="font-size:13pt;color:#ef5350;">
-                          <i class="material-icons" style="position:relative;top:5px;">pause</i>
-                          프로젝트 마감
-                        </div>
-
-                        <div style="height:15px;"></div>
-                        
+                  
+                      <div class="center-align" style="padding-top:25px;width:100%;min-height:60px;background-color:#424242;">
                         <!-- 프로젝트명 -->
-                        <div style="font-weight: lighter;font-size:16pt;"><i class="material-icons" :style="'color:#'+project.PRO_COLOR">description</i>{{project.PRO_NAME}}</div>          
+                        <div style="font-weight: lighter;font-size:16pt;position:relative;z-index:1;top:-10px;color:#FFFFFF;">
+                          <i class="material-icons" style="position:relative;top:3px;">description</i>{{project.PRO_NAME}}
+                        </div> 
+                      </div>   
+
+                      <div class="center-align" style="font-size:10pt;" >                      
+
+                        <!-- 여백 -->
+                        <div style="height:15px;"></div>
+                                
+                        <div style="font-size:13pt;color:#41B883;">
+                          <i class="material-icons" style="position:relative;top:5px;">play_arrow</i>
+                          진행중
+                        </div>
 
                         <!-- 진행률 -->
                         <div>프로젝트 진행율: {{project.PRO_PROGRESS}}%
@@ -98,11 +110,6 @@
                         <!-- 프로젝트 시작일 -->
                         <div>시작일:{{project.PRO_START_DATE}}</div>
 
-                        <!-- 수정 삭제 -->                                    
-                        <div style="position:absolute;top:85%;left:70%">
-                          <router-link :to="'/projectModify/'+project.PRO_ID"><a :style="'color:#'+project.PRO_COLOR+';'">수정</a></router-link>
-                        </div>
-
                       </div>
                     
 
@@ -110,7 +117,7 @@
                 </div>   
               </router-link>                
 
-            </template>                      
+            </template>                
           </div>          
                       
         </div>
@@ -156,6 +163,8 @@ export default {
           });
     //프로젝트 리스트에 바인딩
     this.projectListData = initProjectList.responseJSON;
+
+    $('.collapsible').collapsible();
 
   } //mounted end
 

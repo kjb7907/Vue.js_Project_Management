@@ -101,7 +101,6 @@
 <script>
 var context = require('../../context.js');
 
-
 export default {
 
   name: 'schedule',
@@ -113,6 +112,7 @@ export default {
     return {
         fcEvents : [ ]
         ,dayEvents : [ ]
+        
       }
     }
   ,methods:{
@@ -257,6 +257,10 @@ export default {
 
   ,mounted : function(){
 
+    //$('.next-month').text('다음');
+    $('.next-month').addClass('btn');
+    //$('.prev-month').text('이전');
+    $('.prev-month').addClass('btn');
 
     $('.colorbox').click(function(){
       $('#schColor').val($(this).attr('colorValue'));
@@ -280,8 +284,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scope>
 
-
-
+  .btn{
+    padding-top:0px;
+    padding-left:5px;
+    padding-right:5px;
+    background-color:#41B883;
+  }
   .cal-normal {
     background-color: #41B883!important;
     color : #FFFFFF!important;

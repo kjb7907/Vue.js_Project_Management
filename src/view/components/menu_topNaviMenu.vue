@@ -2,10 +2,10 @@
   <div id="app">
     <div class="navbar-fixed">
 
-      <nav style="background-color:#35495E ;">
-      
+      <!-- <nav style="background-color:#35495E ;"> -->
+      <nav class="light-blue darken-4">
         <div class="nav-wrapper container">
-          <router-link to="/"><a href="#" class="brand-logo"><img src="../../assets/logo.png" style="margin-top:5px;width:80px;"></a></router-link>
+          <router-link to="/"><a href="#" class="brand-logo"><img src="../../assets/logo.png" style="margin-top:15px;width:80px;"></a></router-link>
 
           <ul id="nav-mobile" class="right hide-on-med-and-down">
 
