@@ -10,24 +10,33 @@
                 <div class="card-content" style="text-align:center;">
                   <span class="card-title" style="position:relative;z-index:1;">                  
                     <div>
-                      <img :src="member.MEM_IMG"
-                          alt="" class="circle" style="width:70px;height:70px;">        
+                      <template v-if="member.MEM_IMG!=null">
+                        <img :src="member.MEM_IMG"
+                            alt="" class="circle" style="width:70px;height:70px;">    
+                      </template>
+                      <template v-else>
+                        <a class="btn-floating waves-effect waves-light" style="width:70px;height:70px;">
+                          <div style="position:relative;top:12px;font-size:13pt;">{{member.MEM_NAME}}</div>
+                        </a>
+                      </template>              
                     </div>          
                     {{member.MEM_NAME}}    
                   </span>
                 
-                  <div>남은 작업 : {{member.COMPLETE}}</div>
-                  <div>완료한 작업 : {{member.INCOMPLETE}}</div>
+                  <div>남은 작업 : {{member.INCOMPLETE}}</div>
+                  <div>완료한 작업 : {{member.COMPLETE}}</div>
                 </div>
                 <div class="card-action" style="text-align:right;">
-                  <a href="#">작업 관리</a>
+                  <a @click="modalOpen(member.MEM_ID,member.MEM_NAME)" class="waves-effect waves-light btn">작업관리</a>
                 </div>
               </div> 
 
             </div>          
           </template>
-
         </div>
+
+        <toDoModal :memberName="memberName"></toDoModal>
+
     </div>
 </template>
 
@@ -40,18 +49,23 @@ export default {
   name: 'TO-DO',
 
   components: {
-    
+    'toDoModal': () => import('../components/to-do_modal')
   },
 
   data () {
     return {
       memberList : [],
-      modalId : 0,
+      memberId : 0,
+      memberName :'',
     }
   }
 
   ,methods : {  
-
+    modalOpen : function(id,name){
+      this.$store.state.memModalId=id;
+      this.memberName=name;
+     $('#to-do_modal').modal('open');
+    }
   } //methods end  
 
   // mounted == document ready 
@@ -70,7 +84,11 @@ export default {
 
 
       //가져온 상세정보 세팅
+      console.log(memberList.responseJSON);
       this.memberList=memberList.responseJSON;    
+
+
+      $('.modal').modal();
 
   } //mounted end
 

@@ -162,21 +162,22 @@ export default {
                 let ckValue=$('#ck'+ckId).prop('checked');
                 let ckDetail=$('#ckDetail'+ckId).val();
                 let proId = this.projectId; //프로젝트id
-                
-                let checkRequest = 
-                  $.ajax({
-                    url:context.hostUrl+'/projectCheckListCheck',
-                    async:false,
-                    type:'post',
-                    data:{"proId":proId,"ckValue":ckValue,"ckId":ckId,"ckDetail":ckDetail},
-                    dataType : "json",
-                    success : function(data){ },
-                    error : function(err){ console.log(err); }
-                  });    
 
-                  this.ckList = checkRequest.responseJSON.proCheckList;
-                  this.$emit('checkAction',checkRequest.responseJSON.proProgress);    
+                if(confirm('체크 하시겠습니까?')==true){
+                  let checkRequest = 
+                    $.ajax({
+                      url:context.hostUrl+'/projectCheckListCheck',
+                      async:false,
+                      type:'post',
+                      data:{"proId":proId,"ckValue":ckValue,"ckId":ckId,"ckDetail":ckDetail},
+                      dataType : "json",
+                      success : function(data){ },
+                      error : function(err){ console.log(err); }
+                    });    
 
+                    this.ckList = checkRequest.responseJSON.proCheckList;
+                    this.$emit('checkAction',checkRequest.responseJSON.proProgress);    
+                }
             }              
 
   } //methods end  
